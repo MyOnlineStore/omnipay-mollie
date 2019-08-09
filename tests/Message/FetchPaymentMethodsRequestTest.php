@@ -13,7 +13,7 @@ class FetchPaymentMethodsRequestTest extends TestCase
 {
     use AssertRequestTrait;
 
-    protected static $expectedRequestUri = 'https://api.mollie.com/v2/methods?amount%5Bvalue%5D=22.56&amount%5Bcurrency%5D=SEK&billingCountry=SE&locale=sv_SE&resource=orders&sequenceType=oneoff';
+    protected static $expectedRequestUri = 'https://api.mollie.com/v2/methods?amount%5Bvalue%5D=22.56&amount%5Bcurrency%5D=SEK&billingCountry=SE&locale=sv_SE&resource=orders&sequenceType=oneoff&includeWallets=applepay';
 
     /**
      * @var FetchPaymentMethodsRequest
@@ -31,6 +31,7 @@ class FetchPaymentMethodsRequestTest extends TestCase
             'locale' => 'sv_SE',
             'resource' => 'orders',
             'sequenceType' => 'oneoff',
+            'includeWallets' => 'applepay',
         ]);
     }
 
@@ -47,6 +48,7 @@ class FetchPaymentMethodsRequestTest extends TestCase
         $this->assertSame('sv_SE', $data['locale']);
         $this->assertSame('orders', $data['resource']);
         $this->assertSame('oneoff', $data['sequenceType']);
+        $this->assertSame('applepay', $data['includeWallets']);
     }
 
     /**
