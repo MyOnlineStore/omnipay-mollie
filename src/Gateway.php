@@ -16,6 +16,7 @@ use Omnipay\Mollie\Message\Request\FetchCustomerRequest;
 use Omnipay\Mollie\Message\Request\FetchIssuersRequest;
 use Omnipay\Mollie\Message\Request\FetchOrderRequest;
 use Omnipay\Mollie\Message\Request\FetchPaymentMethodsRequest;
+use Omnipay\Mollie\Message\Request\FetchProfileRequest;
 use Omnipay\Mollie\Message\Request\FetchTransactionRequest;
 use Omnipay\Mollie\Message\Request\PurchaseRequest;
 use Omnipay\Mollie\Message\Request\RefundRequest;
@@ -292,6 +293,14 @@ class Gateway extends AbstractGateway
     public function revokeCustomerMandate(array $parameters = [])
     {
         return $this->createRequest(RevokeCustomerMandateRequest::class, $parameters);
+    }
+
+    /**
+     * @param array<string, mixed> $parameters
+     */
+    public function fetchProfile(array $parameters = []): FetchProfileRequest
+    {
+        return $this->createRequest(FetchProfileRequest::class, $parameters);
     }
 
     /**

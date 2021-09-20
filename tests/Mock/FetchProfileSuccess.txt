@@ -1,0 +1,50 @@
+HTTP/1.1 200 OK
+Content-Type: application/hal+json
+
+{
+  "resource": "profile",
+  "id": "pfl_dfgh",
+  "mode": "live",
+  "name": "F. Bar",
+  "website": "http://foo.bar/",
+  "email": "foo@bar.nl",
+  "phone": "+31612345678",
+  "categoryCode": 5732,
+  "businessCategory": null,
+  "status": "verified",
+  "createdAt": "2010-06-01T13:08:53+00:00",
+  "_links": {
+    "self": {
+      "href": "https://api.mollie.com/v2/profiles/pfl_dfgh?testmode=true",
+      "type": "application/hal+json"
+    },
+    "dashboard": {
+      "href": "https://www.mollie.com/dashboard/org_789/settings/profiles/pfl_dfgh",
+      "type": "text/html"
+    },
+    "chargebacks": {
+      "href": "https://api.mollie.com/v2/chargebacks",
+      "type": "application/hal+json"
+    },
+    "methods": {
+      "href": "https://api.mollie.com/v2/methods",
+      "type": "application/hal+json"
+    },
+    "payments": {
+      "href": "https://api.mollie.com/v2/payments",
+      "type": "application/hal+json"
+    },
+    "refunds": {
+      "href": "https://api.mollie.com/v2/refunds",
+      "type": "application/hal+json"
+    },
+    "checkoutPreviewUrl": {
+      "href": "https://www.mollie.com/payscreen/preview/pfl_dfgh",
+      "type": "text/html"
+    },
+    "documentation": {
+      "href": "https://docs.mollie.com/reference/v2/profiles-api/get-profile-me",
+      "type": "text/html"
+    }
+  }
+}
