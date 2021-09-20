@@ -199,6 +199,10 @@ class CreateOrderRequest extends AbstractMollieRequest
             $data['payment']['sequenceType'] = $sequenceType;
         }
 
+        if ($cardToken = $this->getCardToken()) {
+            $data['payment']['cardToken'] = $cardToken;
+        }
+
         return array_filter($data);
     }
 

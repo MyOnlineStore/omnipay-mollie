@@ -45,6 +45,16 @@ abstract class AbstractMollieRequest extends AbstractRequest
         return $this->setParameter('apiKey', $value);
     }
 
+    public function getCardToken(): ?string
+    {
+        return $this->getParameter('cardToken');
+    }
+
+    public function setCardToken(string $cardToken): self
+    {
+        return $this->setParameter('cardToken', $cardToken);
+    }
+
     /**
      * @return array|null
      */

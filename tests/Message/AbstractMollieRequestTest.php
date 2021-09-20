@@ -22,7 +22,6 @@ class AbstractMollieRequestTest extends TestCase
         $this->gateway = new Gateway($this->getHttpClient());
     }
 
-
     public function testVersionString()
     {
         $request = $this->gateway->fetchIssuers();

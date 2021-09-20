@@ -1,8 +1,9 @@
 <?php
+declare(strict_types=1);
+
 namespace Omnipay\Mollie\Test\Message;
 
 use GuzzleHttp\Psr7\Request;
-use Omnipay\Common\Exception\InvalidRequestException;
 use Omnipay\Mollie\Message\Request\PurchaseRequest;
 use Omnipay\Mollie\Message\Response\PurchaseResponse;
 use Omnipay\Tests\TestCase;
@@ -11,45 +12,46 @@ class PurchaseRequestTest extends TestCase
 {
     use AssertRequestTrait;
 
-    /**
-     * @var PurchaseRequest
-     */
+    /** @var PurchaseRequest */
     protected $request;
 
     public function setUp(): void
     {
         $this->request = new PurchaseRequest($this->getHttpClient(), $this->getHttpRequest());
-        $this->request->initialize(array(
-            'apiKey'       => 'mykey',
-            'amount'       => '12.00',
-            'currency'     => 'USD',
-            'issuer'       => 'my bank',
-            'description'  => 'Description',
-            'returnUrl'    => 'https://www.example.com/return',
-            'method'       => 'ideal',
-            'metadata' => ['meta'],
-            'locale'       => 'fr_FR',
-            'billingEmail' => 'billing-email@example.com',
-        ));
+        $this->request->initialize(
+            [
+                'apiKey' => 'mykey',
+                'amount' => '12.00',
+                'currency' => 'USD',
+                'issuer' => 'my bank',
+                'description' => 'Description',
+                'returnUrl' => 'https://www.example.com/return',
+                'method' => 'ideal',
+                'metadata' => ['meta'],
+                'locale' => 'fr_FR',
+                'billingEmail' => 'billing-email@example.com',
+                'cardToken' => 'qwe123asd',
+            ]
+        );
     }
 
-    /**
-     * @throws InvalidRequestException
-     */
-    public function testGetData()
+    public function testGetData(): void
     {
-        $this->request->initialize([
-            'apiKey' => 'mykey',
-            'amount' => '12.00',
-            'currency' => 'USD',
-            'description' => 'Description',
-            'returnUrl' => 'https://www.example.com/return',
-            'paymentMethod' => 'ideal',
-            'metadata' => ['meta'],
-            'issuer' => 'my bank',
-            'locale' => 'fr_FR',
-            'billingEmail' => 'billing-email@example.com',
-        ]);
+        $this->request->initialize(
+            [
+                'apiKey' => 'mykey',
+                'amount' => '12.00',
+                'currency' => 'USD',
+                'description' => 'Description',
+                'returnUrl' => 'https://www.example.com/return',
+                'paymentMethod' => 'ideal',
+                'metadata' => ['meta'],
+                'issuer' => 'my bank',
+                'locale' => 'fr_FR',
+                'billingEmail' => 'billing-email@example.com',
+                'cardToken' => 'qwe123asd',
+            ]
+        );
 
         $data = $this->request->getData();
 
@@ -61,27 +63,27 @@ class PurchaseRequestTest extends TestCase
         $this->assertSame('my bank', $data['issuer']);
         $this->assertSame('fr_FR', $data['locale']);
         $this->assertSame('billing-email@example.com', $data['billingEmail']);
-        $this->assertCount(8, $data);
+        $this->assertSame('qwe123asd', $data['cardToken']);
+        $this->assertCount(9, $data);
     }
 
-    /**
-     * @throws InvalidRequestException
-     */
-    public function testGetDataWithWebhook()
+    public function testGetDataWithWebhook(): void
     {
-        $this->request->initialize(array(
-            'apiKey'        => 'mykey',
-            'amount'        => '12.00',
-            'currency'      => 'EUR',
-            'description'   => 'Description',
-            'returnUrl'     => 'https://www.example.com/return',
-            'paymentMethod' => 'ideal',
-            'metadata' => ['meta'],
-            'issuer'        => 'my bank',
-            'locale'        => 'fr_FR',
-            'billingEmail'  => 'billing-email@example.com',
-            'notifyUrl'     => 'https://www.example.com/hook',
-        ));
+        $this->request->initialize(
+            [
+                'apiKey' => 'mykey',
+                'amount' => '12.00',
+                'currency' => 'EUR',
+                'description' => 'Description',
+                'returnUrl' => 'https://www.example.com/return',
+                'paymentMethod' => 'ideal',
+                'metadata' => ['meta'],
+                'issuer' => 'my bank',
+                'locale' => 'fr_FR',
+                'billingEmail' => 'billing-email@example.com',
+                'notifyUrl' => 'https://www.example.com/hook',
+            ]
+        );
 
         $data = $this->request->getData();
 
@@ -97,23 +99,22 @@ class PurchaseRequestTest extends TestCase
         $this->assertCount(9, $data);
     }
 
-    /**
-     * @throws InvalidRequestException
-     */
-    public function testNoIssuer()
+    public function testNoIssuer(): void
     {
-        $this->request->initialize(array(
-            'apiKey'        => 'mykey',
-            'amount'        => '12.00',
-            'currency'      => 'SEK',
-            'description'   => 'Description',
-            'returnUrl'     => 'https://www.example.com/return',
-            'paymentMethod' => 'ideal',
-            'metadata' => ['meta'],
-            'locale'        => 'fr_FR',
-            'billingEmail'  => 'billing-email@example.com',
-            'notifyUrl'     => 'https://www.example.com/hook',
-        ));
+        $this->request->initialize(
+            [
+                'apiKey' => 'mykey',
+                'amount' => '12.00',
+                'currency' => 'SEK',
+                'description' => 'Description',
+                'returnUrl' => 'https://www.example.com/return',
+                'paymentMethod' => 'ideal',
+                'metadata' => ['meta'],
+                'locale' => 'fr_FR',
+                'billingEmail' => 'billing-email@example.com',
+                'notifyUrl' => 'https://www.example.com/hook',
+            ]
+        );
 
         $data = $this->request->getData();
 
@@ -128,7 +129,7 @@ class PurchaseRequestTest extends TestCase
         $this->assertCount(8, $data);
     }
 
-    public function testSendSuccess()
+    public function testSendSuccess(): void
     {
         $this->setMockHttpResponse('PurchaseSuccess.txt');
         $response = $this->request->send();
@@ -151,12 +152,12 @@ class PurchaseRequestTest extends TestCase
                     ],
                    "issuer":"my bank",
                    "locale":"fr_FR",
-                   "billingEmail":"billing-email@example.com"
+                   "billingEmail":"billing-email@example.com",
+                   "cardToken": "qwe123asd"
                 }'
             ),
             $this->getMockClient()->getLastRequest()
         );
-
 
         $this->assertInstanceOf(PurchaseResponse::class, $response);
         $this->assertFalse($response->isSuccessful());
@@ -174,7 +175,7 @@ class PurchaseRequestTest extends TestCase
         );
     }
 
-    public function testSendSuccessWithQrcode()
+    public function testSendSuccessWithQrcode(): void
     {
         $this->setMockHttpResponse('PurchaseSuccess.txt');
         $response = $this->request->setInclude('details.qrCode')->send();
@@ -197,7 +198,8 @@ class PurchaseRequestTest extends TestCase
                     ],
                    "issuer":"my bank",
                    "locale":"fr_FR",
-                   "billingEmail":"billing-email@example.com"
+                   "billingEmail":"billing-email@example.com",
+                   "cardToken": "qwe123asd"
                 }'
             ),
             $this->getMockClient()->getLastRequest()
@@ -209,7 +211,7 @@ class PurchaseRequestTest extends TestCase
         $this->assertTrue($response->isRedirect());
     }
 
-    public function testIssuerFailure()
+    public function testIssuerFailure(): void
     {
         $this->setMockHttpResponse('PurchaseIssuerFailure.txt');
         $response = $this->request->send();
@@ -228,6 +230,9 @@ class PurchaseRequestTest extends TestCase
         $this->assertNull($response->getTransactionReference());
         $this->assertNull($response->getRedirectUrl());
         $this->assertNull($response->getRedirectData());
-        $this->assertSame('{"status":422,"title":"Unprocessable Entity","detail":"The payment method is invalid","field":"method","_links":{"documentation":{"href":"https:\/\/docs.mollie.com\/guides\/handling-errors","type":"text\/html"}}}', $response->getMessage());
+        $this->assertSame(
+            '{"status":422,"title":"Unprocessable Entity","detail":"The payment method is invalid","field":"method","_links":{"documentation":{"href":"https:\/\/docs.mollie.com\/guides\/handling-errors","type":"text\/html"}}}',
+            $response->getMessage()
+        );
     }
 }

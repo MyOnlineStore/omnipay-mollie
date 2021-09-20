@@ -185,6 +185,10 @@ class PurchaseRequest extends AbstractMollieRequest
             $data['mandateId'] = $mandateId;
         }
 
+        if ($cardToken = $this->getCardToken()) {
+            $data['cardToken'] = $cardToken;
+        }
+
         return $data;
     }
 

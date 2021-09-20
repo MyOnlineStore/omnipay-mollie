@@ -1,17 +1,14 @@
 <?php
+declare(strict_types=1);
+
 namespace Omnipay\Mollie\Test\Message;
 
 use GuzzleHttp\Psr7\Request;
-use Omnipay\Common\Exception\InvalidRequestException;
-use Omnipay\Common\ItemBag;
-use Omnipay\Mollie\Item;
 use Omnipay\Mollie\Message\Request\CreateOrderRequest;
-use Omnipay\Mollie\Message\Request\PurchaseRequest;
 use Omnipay\Mollie\Message\Response\CreateOrderResponse;
-use Omnipay\Mollie\Message\Response\PurchaseResponse;
 use Omnipay\Tests\TestCase;
 
-class CreateOrderRequestTest extends TestCase
+final class CreateOrderRequestTest extends TestCase
 {
     use AssertRequestTrait;
 
@@ -23,77 +20,77 @@ class CreateOrderRequestTest extends TestCase
     public function setUp(): void
     {
         $this->request = new CreateOrderRequest($this->getHttpClient(), $this->getHttpRequest());
-        $this->request->initialize(array(
-            'apiKey'       => 'test_dHar4XY7LxsDOtmnkVtjNVWXLSlXsM',
-            'amount'       => '1027.99',
-            'currency'     => 'EUR',
-            'orderNumber'  => '1337',
-            'lines'        => [
-                [
-                    'type' => 'physical',
-                    'sku' => '5702016116977',
-                    'name' => 'LEGO 42083 Bugatti Chiron',
-                    'productUrl' => 'https://shop.lego.com/nl-NL/Bugatti-Chiron-42083',
-                    'imageUrl' => 'https://sh-s7-live-s.legocdn.com/is/image//LEGO/42083_alt1?$main$',
-                    'quantity' => 2,
-                    'vatRate' => '21.00',
-                    'unitPrice' => '399.00',
-                    'totalAmount' => '698.00',
-                    'discountAmount' => '100.00',
-                    'vatAmount' => '121.14',
+        $this->request->initialize(
+            [
+                'apiKey' => 'test_dHar4XY7LxsDOtmnkVtjNVWXLSlXsM',
+                'amount' => '1027.99',
+                'currency' => 'EUR',
+                'orderNumber' => '1337',
+                'lines' => [
+                    [
+                        'type' => 'physical',
+                        'sku' => '5702016116977',
+                        'name' => 'LEGO 42083 Bugatti Chiron',
+                        'productUrl' => 'https://shop.lego.com/nl-NL/Bugatti-Chiron-42083',
+                        'imageUrl' => 'https://sh-s7-live-s.legocdn.com/is/image//LEGO/42083_alt1?$main$',
+                        'quantity' => 2,
+                        'vatRate' => '21.00',
+                        'unitPrice' => '399.00',
+                        'totalAmount' => '698.00',
+                        'discountAmount' => '100.00',
+                        'vatAmount' => '121.14',
+                    ],
+                    [
+                        'type' => 'physical',
+                        'sku' => '5702015594028',
+                        'name' => 'LEGO 42056 Porsche 911 GT3 RS',
+                        'productUrl' => 'https://shop.lego.com/nl-NL/Porsche-911-GT3-RS-42056',
+                        'imageUrl' => 'https://sh-s7-live-s.legocdn.com/is/image/LEGO/42056?$PDPDefault$',
+                        'quantity' => 1,
+                        'vatRate' => '21.00',
+                        'unitPrice' => '329.99',
+                        'totalAmount' => '329.99',
+                        'vatAmount' => '57.27',
+                    ],
                 ],
-                [
-                    'type' => 'physical',
-                    'sku' => '5702015594028',
-                    'name' => 'LEGO 42056 Porsche 911 GT3 RS',
-                    'productUrl' => 'https://shop.lego.com/nl-NL/Porsche-911-GT3-RS-42056',
-                    'imageUrl' => 'https://sh-s7-live-s.legocdn.com/is/image/LEGO/42056?$PDPDefault$',
-                    'quantity' => 1,
-                    'vatRate' => '21.00',
-                    'unitPrice' => '329.99',
-                    'totalAmount' => '329.99',
-                    'vatAmount' => '57.27',
+                'card' => [
+                    'company' => 'Mollie B.V.',
+                    'email' => 'norris@chucknorrisfacts.net',
+                    'birthday' => '1958-01-31',
+                    'billingTitle' => 'Dhr',
+                    'billingFirstName' => 'Piet',
+                    'billingLastName' => 'Mondriaan',
+                    'billingAddress1' => 'Keizersgracht 313',
+                    'billingCity' => 'Amsterdam',
+                    'billingPostcode' => '1234AB',
+                    'billingState' => 'Noord-Holland',
+                    'billingCountry' => 'NL',
+                    'billingPhone' => '+31208202070',
+                    'shippingTitle' => 'Mr',
+                    'shippingFirstName' => 'Chuck',
+                    'shippingLastName' => 'Norris',
+                    'shippingAddress1' => 'Prinsengracht 313',
+                    'shippingAddress2' => '4th floor',
+                    'shippingCity' => 'Haarlem',
+                    'shippingPostcode' => '5678AB',
+                    'shippingState' => 'Noord-Holland',
+                    'shippingCountry' => 'NL',
                 ],
-            ],
-            'card' => [
-                'company' => 'Mollie B.V.',
-                'email' => 'norris@chucknorrisfacts.net',
-                'birthday' => '1958-01-31',
-                'billingTitle' => 'Dhr',
-                'billingFirstName' => 'Piet',
-                'billingLastName' => 'Mondriaan',
-                'billingAddress1' => 'Keizersgracht 313',
-                'billingCity' => 'Amsterdam',
-                'billingPostcode' => '1234AB',
-                'billingState' => 'Noord-Holland',
-                'billingCountry' => 'NL',
-                'billingPhone' => '+31208202070',
-                'shippingTitle' => 'Mr',
-                'shippingFirstName' => 'Chuck',
-                'shippingLastName' => 'Norris',
-                'shippingAddress1' => 'Prinsengracht 313',
-                'shippingAddress2' => '4th floor',
-                'shippingCity' => 'Haarlem',
-                'shippingPostcode' => '5678AB',
-                'shippingState' => 'Noord-Holland',
-                'shippingCountry' => 'NL',
-            ],
-            'metadata' => [
-                'order_id' => '1337',
-                'description' => 'Lego cars',
-            ],
-            'locale' => 'nl_NL',
-            'returnUrl'    => 'https://example.org/redirect',
-            'notifyUrl'    => 'https://example.org/webhook',
-            'paymentMethod' => 'klarnapaylater',
-            'billingEmail' => 'piet@mondriaan.com',
-        ));
+                'metadata' => [
+                    'order_id' => '1337',
+                    'description' => 'Lego cars',
+                ],
+                'locale' => 'nl_NL',
+                'returnUrl' => 'https://example.org/redirect',
+                'notifyUrl' => 'https://example.org/webhook',
+                'paymentMethod' => 'klarnapaylater',
+                'billingEmail' => 'piet@mondriaan.com',
+                'cardToken' => 'qwe123asd',
+            ]
+        );
     }
 
-    /**
-     * @throws InvalidRequestException
-     */
-    public function testGetData()
+    public function testGetData(): void
     {
         $data = $this->request->getData();
 
@@ -104,10 +101,10 @@ class CreateOrderRequestTest extends TestCase
         $this->assertSame('Lego cars', $data['metadata']['description']);
         $this->assertSame('nl_NL', $data['locale']);
 
-        $this->assertCount(11, $data);
+        $this->assertCount(12, $data);
     }
 
-    public function testGetAddressData()
+    public function testGetAddressData(): void
     {
         $data = $this->request->getData();
 
@@ -136,10 +133,9 @@ class CreateOrderRequestTest extends TestCase
         $this->assertSame('Mondriaan', $billingAddress['familyName']);
         $this->assertSame('piet@mondriaan.com', $billingAddress['email']);
         $this->assertSame('+31208202070', $billingAddress['phone']);
-
     }
 
-    public function testGetLines()
+    public function testGetLines(): void
     {
         $data = $this->request->getData();
 
@@ -159,30 +155,32 @@ class CreateOrderRequestTest extends TestCase
         $this->assertSame('121.14', $line['vatAmount']['value']);
     }
 
-    public function testDiscountLines()
+    public function testDiscountLines(): void
     {
-        $this->request->setLines([
+        $this->request->setLines(
             [
-                'type' => 'physical',
-                'sku' => '5702016116977',
-                'name' => 'LEGO 42083 Bugatti Chiron',
-                'quantity' => 2,
-                'vatRate' => '21.00',
-                'unitPrice' => '399.00',
-                'totalAmount' => '698.00',
-                'discountAmount' => '100.00',
-                'vatAmount' => '121.14',
-            ],
-            [
-                'type' => 'discount',
-                'name' => 'Discount 100 EURO',
-                'quantity' => 1,
-                'vatRate' => '21.00',
-                'unitPrice' => '-100.00',
-                'totalAmount' => '-100.00',
-                'vatAmount' => '-17.36',
-            ],
-        ]);
+                [
+                    'type' => 'physical',
+                    'sku' => '5702016116977',
+                    'name' => 'LEGO 42083 Bugatti Chiron',
+                    'quantity' => 2,
+                    'vatRate' => '21.00',
+                    'unitPrice' => '399.00',
+                    'totalAmount' => '698.00',
+                    'discountAmount' => '100.00',
+                    'vatAmount' => '121.14',
+                ],
+                [
+                    'type' => 'discount',
+                    'name' => 'Discount 100 EURO',
+                    'quantity' => 1,
+                    'vatRate' => '21.00',
+                    'unitPrice' => '-100.00',
+                    'totalAmount' => '-100.00',
+                    'vatAmount' => '-17.36',
+                ],
+            ]
+        );
 
         $this->setMockHttpResponse('CreateOrderSuccess.txt');
         $response = $this->request->send();
@@ -191,7 +189,7 @@ class CreateOrderRequestTest extends TestCase
     }
 
 
-    public function testSendSuccess()
+    public function testSendSuccess(): void
     {
         $this->setMockHttpResponse('CreateOrderSuccess.txt');
         $response = $this->request->send();
@@ -214,23 +212,29 @@ class CreateOrderRequestTest extends TestCase
         $this->assertSame('https://www.mollie.com/payscreen/order/checkout/pbjz8x', $response->getRedirectUrl());
         $this->assertNull($response->getRedirectData());
         $this->assertSame('ord_pbjz8x', $response->getTransactionReference());
-        $this->assertSame('created' ,$response->getStatus());
+        $this->assertSame('created', $response->getStatus());
         $this->assertTrue($response->isOpen());
         $this->assertFalse($response->isPaid());
         $this->assertNull($response->getCode());
     }
 
-    public function testSendFailure()
+    public function testSendFailure(): void
     {
         $this->setMockHttpResponse('CreateOrderFailure.txt');
         $response = $this->request->send();
 
-        $this->assertEqualRequest(new Request("POST", "https://api.mollie.com/v2/orders"), $this->getMockClient()->getLastRequest());
+        $this->assertEqualRequest(
+            new Request("POST", "https://api.mollie.com/v2/orders"),
+            $this->getMockClient()->getLastRequest()
+        );
 
         $this->assertInstanceOf(CreateOrderResponse::class, $response);
         $this->assertFalse($response->isSuccessful());
         $this->assertFalse($response->isRedirect());
         $this->assertNull($response->getTransactionReference());
-        $this->assertSame('{"status":401,"title":"Unauthorized Request","detail":"Missing authentication, or failed to authenticate","_links":{"documentation":{"href":"https:\/\/docs.mollie.com\/guides\/authentication","type":"text\/html"}}}', $response->getMessage());
+        $this->assertSame(
+            '{"status":401,"title":"Unauthorized Request","detail":"Missing authentication, or failed to authenticate","_links":{"documentation":{"href":"https:\/\/docs.mollie.com\/guides\/authentication","type":"text\/html"}}}',
+            $response->getMessage()
+        );
     }
 }
