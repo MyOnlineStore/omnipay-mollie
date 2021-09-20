@@ -119,7 +119,6 @@ abstract class AbstractMollieRequest extends AbstractRequest
     {
         $versions = [
             'Omnipay-Mollie/' . Gateway::GATEWAY_VERSION,
-            'PHP/' . phpversion(),
         ];
 
         if ($customVersions = $this->getParameter('versionStrings')) {
@@ -132,10 +131,6 @@ abstract class AbstractMollieRequest extends AbstractRequest
             'Authorization' => 'Bearer ' . $this->getApiKey(),
             'User-Agent' => implode(' ', $versions),
         ];
-
-        if (function_exists("php_uname")) {
-            $headers['X-Mollie-Client-Info'] = php_uname();
-        }
 
         $response = $this->httpClient->request(
             $method,
