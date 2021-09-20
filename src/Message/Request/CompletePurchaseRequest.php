@@ -9,12 +9,14 @@ use Omnipay\Mollie\Message\Response\CompletePurchaseResponse;
  * Retrieve a single payment object by its payment token.
  *
  * @see https://docs.mollie.com/reference/v2/payments-api/get-payment
+ *
  * @method CompletePurchaseResponse send()
  */
 class CompletePurchaseRequest extends FetchTransactionRequest
 {
     /**
      * @return array
+     *
      * @throws InvalidRequestException
      */
     public function getData()
@@ -29,7 +31,7 @@ class CompletePurchaseRequest extends FetchTransactionRequest
         }
 
         if (empty($data['id'])) {
-            throw new InvalidRequestException("The transactionReference parameter is required");
+            throw new InvalidRequestException('The transactionReference parameter is required');
         }
 
         return $data;
@@ -37,6 +39,7 @@ class CompletePurchaseRequest extends FetchTransactionRequest
 
     /**
      * @param array $data
+     *
      * @return CompletePurchaseResponse
      */
     public function sendData($data)

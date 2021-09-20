@@ -9,12 +9,14 @@ use Omnipay\Mollie\Message\Response\FetchOrderResponse;
  * Retrieve a single order object by its payment token.
  *
  * @see https://docs.mollie.com/reference/v2/payments-api/get-order
+ *
  * @method FetchOrderResponse send()
  */
 class FetchOrderRequest extends AbstractMollieRequest
 {
     /**
      * @return array
+     *
      * @throws InvalidRequestException
      */
     public function getData()
@@ -37,6 +39,7 @@ class FetchOrderRequest extends AbstractMollieRequest
 
     /**
      * @param array $data
+     *
      * @return FetchOrderResponse
      */
     public function sendData($data)
@@ -55,6 +58,7 @@ class FetchOrderRequest extends AbstractMollieRequest
 
     /**
      * @param bool $includePayments
+     *
      * @return self
      */
     public function setIncludePayments($includePayments)

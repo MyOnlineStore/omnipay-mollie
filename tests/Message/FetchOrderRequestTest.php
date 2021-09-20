@@ -16,19 +16,17 @@ class FetchOrderRequestTest extends TestCase
 {
     use AssertRequestTrait;
 
-    /**
-     * @var FetchTransactionRequest
-     */
+    /** @var FetchTransactionRequest */
     protected $request;
 
     public function setUp(): void
     {
         $this->request = new FetchOrderRequest($this->getHttpClient(), $this->getHttpRequest());
         $this->request->initialize(
-            array(
+            [
                 'apiKey'               => 'mykey',
                 'transactionReference' => 'ord_kEn1PlbGa',
-            )
+            ]
         );
     }
 
@@ -39,24 +37,23 @@ class FetchOrderRequestTest extends TestCase
     {
         $data = $this->request->getData();
 
-        $this->assertSame("ord_kEn1PlbGa", $data['id']);
+        $this->assertSame('ord_kEn1PlbGa', $data['id']);
         $this->assertCount(1, $data);
     }
 
     public function testSendSuccess()
     {
         $this->setMockHttpResponse('FetchOrderSuccess.txt');
-        /** @var FetchOrderResponse $response */
         $response = $this->request->send();
+        \assert($response instanceof FetchOrderResponse);
 
         $this->assertEqualRequest(
             new Request(
-                "GET",
-                "https://api.mollie.com/v2/orders/ord_kEn1PlbGa"
+                'GET',
+                'https://api.mollie.com/v2/orders/ord_kEn1PlbGa'
             ),
             $this->getMockClient()->getLastRequest()
         );
-
 
         $this->assertInstanceOf(FetchOrderResponse::class, $response);
         $this->assertTrue($response->isSuccessful());
@@ -66,9 +63,9 @@ class FetchOrderRequestTest extends TestCase
         $this->assertTrue($response->isRedirect());
         $this->assertFalse($response->isRefunded());
         $this->assertFalse($response->isPartialRefunded());
-        $this->assertSame("created", $response->getStatus());
+        $this->assertSame('created', $response->getStatus());
         $this->assertSame('ord_kEn1PlbGa', $response->getTransactionReference());
-        $this->assertSame("1027.99", $response->getAmount());
+        $this->assertSame('1027.99', $response->getAmount());
 
         $this->assertCount(2, $response->getLines());
         $line = $response->getLines()[0];
@@ -79,15 +76,15 @@ class FetchOrderRequestTest extends TestCase
 
         $this->assertCount(2, $response->getItems()->all());
 
-        /** @var Item $item */
         $item = $response->getItems()->all()[0];
+        \assert($item instanceof Item);
         $this->assertSame('5702016116977', $item->getSku());
         $this->assertSame(2, $item->getQuantity());
-        $this->assertSame('0.00',  $item->getAmountShipped());
+        $this->assertSame('0.00', $item->getAmountShipped());
 
         // We cannot parse _links, rest should match
         unset($line['_links']);
-        $this->assertSame(array_keys($line),  array_keys($item->getParameters()));
+        $this->assertSame(\array_keys($line), \array_keys($item->getParameters()));
     }
 
     public function testSendDataWithIncludingPayments()
@@ -105,8 +102,8 @@ class FetchOrderRequestTest extends TestCase
             ->with(
                 FetchOrderRequest::GET,
                 'https://api.mollie.com/v2/orders/ord_kEn1PlbGa?embed=payments',
-                $this->callback(function ($headers) {
-                    return $headers['Authorization'] == 'Bearer mykey';
+                $this->callback(static function ($headers) {
+                    return 'Bearer mykey' == $headers['Authorization'];
                 }),
                 null
             )->willReturn($clientResponse);

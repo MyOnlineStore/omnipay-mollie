@@ -55,7 +55,7 @@ class PurchaseRequestTest extends TestCase
 
         $data = $this->request->getData();
 
-        $this->assertSame(["value" => "12.00", "currency" => "USD"], $data['amount']);
+        $this->assertSame(['value' => '12.00', 'currency' => 'USD'], $data['amount']);
         $this->assertSame('Description', $data['description']);
         $this->assertSame('https://www.example.com/return', $data['redirectUrl']);
         $this->assertSame('ideal', $data['method']);
@@ -87,7 +87,7 @@ class PurchaseRequestTest extends TestCase
 
         $data = $this->request->getData();
 
-        $this->assertSame(["value" => "12.00", "currency" => "EUR"], $data['amount']);
+        $this->assertSame(['value' => '12.00', 'currency' => 'EUR'], $data['amount']);
         $this->assertSame('Description', $data['description']);
         $this->assertSame('https://www.example.com/return', $data['redirectUrl']);
         $this->assertSame('ideal', $data['method']);
@@ -118,7 +118,7 @@ class PurchaseRequestTest extends TestCase
 
         $data = $this->request->getData();
 
-        $this->assertSame(["value" => "12.00", "currency" => "SEK"], $data['amount']);
+        $this->assertSame(['value' => '12.00', 'currency' => 'SEK'], $data['amount']);
         $this->assertSame('Description', $data['description']);
         $this->assertSame('https://www.example.com/return', $data['redirectUrl']);
         $this->assertSame('ideal', $data['method']);
@@ -136,8 +136,8 @@ class PurchaseRequestTest extends TestCase
 
         $this->assertEqualRequest(
             new Request(
-                "POST",
-                "https://api.mollie.com/v2/payments",
+                'POST',
+                'https://api.mollie.com/v2/payments',
                 [],
                 '{  
                    "amount":{  
@@ -182,8 +182,8 @@ class PurchaseRequestTest extends TestCase
 
         $this->assertEqualRequest(
             new Request(
-                "POST",
-                "https://api.mollie.com/v2/payments?include=details.qrCode",
+                'POST',
+                'https://api.mollie.com/v2/payments?include=details.qrCode',
                 [],
                 '{  
                    "amount":{  
@@ -205,7 +205,6 @@ class PurchaseRequestTest extends TestCase
             $this->getMockClient()->getLastRequest()
         );
 
-
         $this->assertInstanceOf(PurchaseResponse::class, $response);
         $this->assertFalse($response->isSuccessful());
         $this->assertTrue($response->isRedirect());
@@ -218,8 +217,8 @@ class PurchaseRequestTest extends TestCase
 
         $this->assertEqualRequest(
             new Request(
-                "POST",
-                "https://api.mollie.com/v2/payments"
+                'POST',
+                'https://api.mollie.com/v2/payments'
             ),
             $this->getMockClient()->getLastRequest()
         );

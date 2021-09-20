@@ -12,19 +12,17 @@ class FetchCustomerRequestTest extends TestCase
 {
     use AssertRequestTrait;
 
-    /**
-     * @var FetchCustomerRequest
-     */
+    /** @var FetchCustomerRequest */
     protected $request;
 
     public function setUp(): void
     {
         $this->request = new FetchCustomerRequest($this->getHttpClient(), $this->getHttpRequest());
         $this->request->initialize(
-            array(
+            [
                 'apiKey'            => 'mykey',
                 'customerReference' => 'cst_bSNBBJBzdG',
-            )
+            ]
         );
     }
 
@@ -42,10 +40,10 @@ class FetchCustomerRequestTest extends TestCase
     {
         $this->setMockHttpResponse('FetchCustomerSuccess.txt');
 
-        /** @var FetchCustomerResponse $response */
         $response = $this->request->send();
+        \assert($response instanceof FetchCustomerResponse);
 
-        $this->assertEqualRequest(new Request("GET", "https://api.mollie.com/v2/customers/cst_bSNBBJBzdG"), $this->getMockClient()->getLastRequest());
+        $this->assertEqualRequest(new Request('GET', 'https://api.mollie.com/v2/customers/cst_bSNBBJBzdG'), $this->getMockClient()->getLastRequest());
 
         $this->assertInstanceOf(FetchCustomerResponse::class, $response);
         $this->assertSame('cst_bSNBBJBzdG', $response->getCustomerReference());
@@ -61,10 +59,10 @@ class FetchCustomerRequestTest extends TestCase
     {
         $this->setMockHttpResponse('FetchCustomerFailure.txt');
 
-        /** @var FetchCustomerResponse $response */
         $response = $this->request->send();
+        \assert($response instanceof FetchCustomerResponse);
 
-        $this->assertEqualRequest(new Request("GET", "https://api.mollie.com/v2/customers/cst_bSNBBJBzdG"), $this->getMockClient()->getLastRequest());
+        $this->assertEqualRequest(new Request('GET', 'https://api.mollie.com/v2/customers/cst_bSNBBJBzdG'), $this->getMockClient()->getLastRequest());
 
         $this->assertInstanceOf(FetchCustomerResponse::class, $response);
         $this->assertFalse($response->isSuccessful());

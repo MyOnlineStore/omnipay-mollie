@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Omnipay\Mollie\Message\Response;
 
@@ -7,18 +8,19 @@ namespace Omnipay\Mollie\Message\Response;
  */
 class FetchCustomerMandatesResponse extends AbstractMollieResponse
 {
-    public function getMandates()
+    /**
+     * @return array<string, mixed>|null
+     */
+    public function getMandates(): ?array
     {
-        if (isset($this->data['_embedded']['mandates'])) {
-            return $this->data['_embedded']['mandates'];
-        }
+        return $this->data['_embedded']['mandates'] ?? null;
     }
 
-    public function hasValidMandates()
+    public function hasValidMandates(): bool
     {
         if ($mandates = $this->getMandates()) {
             foreach ($mandates as $mandate) {
-                if ($mandate['status'] == "valid") {
+                if ('valid' === $mandate['status']) {
                     return true;
                 }
             }

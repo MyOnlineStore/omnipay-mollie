@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Omnipay\Mollie\Message\Response;
 
@@ -15,9 +16,9 @@ class FetchIssuersResponse extends AbstractMollieResponse implements FetchIssuer
      *
      * @return Issuer[]
      */
-    public function getIssuers()
+    public function getIssuers(): array
     {
-        if (isset($this->data['issuers']) === false) {
+        if (false === isset($this->data['issuers'])) {
             return [];
         }
 

@@ -1,7 +1,9 @@
 <?php
+
 namespace Omnipay\Mollie\Test\Message;
 
 use GuzzleHttp\Psr7\Request;
+use Omnipay\Common\Exception\InvalidRequestException;
 use Omnipay\Mollie\Message\Request\PurchaseRequest;
 use Omnipay\Mollie\Message\Request\RefundRequest;
 use Omnipay\Mollie\Message\Response\RefundResponse;
@@ -11,9 +13,7 @@ class RefundRequestTest extends TestCase
 {
     use AssertRequestTrait;
 
-    /**
-     * @var PurchaseRequest
-     */
+    /** @var PurchaseRequest */
     protected $request;
 
     public function setUp(): void
@@ -28,7 +28,7 @@ class RefundRequestTest extends TestCase
     }
 
     /**
-     * @throws \Omnipay\Common\Exception\InvalidRequestException
+     * @throws InvalidRequestException
      */
     public function testGetData()
     {
@@ -36,18 +36,18 @@ class RefundRequestTest extends TestCase
             'apiKey' => 'mykey',
             'amount' => '12.00',
             'currency' => 'EUR',
-            'transactionReference' => 'tr_WDqYK6vllg'
+            'transactionReference' => 'tr_WDqYK6vllg',
         ]);
 
         $data = $this->request->getData();
 
-        $this->assertSame(["value" => "12.00", "currency" => "EUR"], $data['amount']);
+        $this->assertSame(['value' => '12.00', 'currency' => 'EUR'], $data['amount']);
         $this->assertCount(1, $data);
     }
 
     public function testGetDataWithoutAmount()
     {
-        $this->expectException(\Omnipay\Common\Exception\InvalidRequestException::class);
+        $this->expectException(InvalidRequestException::class);
 
         $this->request->initialize(
             [
@@ -64,19 +64,18 @@ class RefundRequestTest extends TestCase
     public function testSendSuccess()
     {
         $this->setMockHttpResponse('RefundSuccess.txt');
-        /** @var RefundResponse $response */
         $response = $this->request->send();
+        \assert($response instanceof RefundResponse);
 
         $this->assertEqualRequest(
             new Request(
-                "POST",
-                "https://api.mollie.com/v2/payments/tr_WDqYK6vllg/refunds",
+                'POST',
+                'https://api.mollie.com/v2/payments/tr_WDqYK6vllg/refunds',
                 [],
                 '{"amount":{"value":"12.00","currency":"EUR"}}'
             ),
             $this->getMockClient()->getLastRequest()
         );
-
 
         $this->assertInstanceOf(RefundResponse::class, $response);
         $this->assertTrue($response->isSuccessful());
@@ -88,11 +87,11 @@ class RefundRequestTest extends TestCase
     public function test401Failure()
     {
         $this->setMockHttpResponse('Refund401Failure.txt');
-        /** @var RefundResponse $response */
         $response = $this->request->send();
+        \assert($response instanceof RefundResponse);
 
         $this->assertEqualRequest(
-            new Request("POST", "https://api.mollie.com/v2/payments/tr_WDqYK6vllg/refunds", [], ''),
+            new Request('POST', 'https://api.mollie.com/v2/payments/tr_WDqYK6vllg/refunds', [], ''),
             $this->getMockClient()->getLastRequest()
         );
 
@@ -104,13 +103,13 @@ class RefundRequestTest extends TestCase
     public function test422Failure()
     {
         $this->setMockHttpResponse('Refund422Failure.txt');
-        /** @var RefundResponse $response */
         $response = $this->request->send();
+        \assert($response instanceof RefundResponse);
 
         $this->assertEqualRequest(
             new Request(
-                "POST",
-                "https://api.mollie.com/v2/payments/tr_WDqYK6vllg/refunds",
+                'POST',
+                'https://api.mollie.com/v2/payments/tr_WDqYK6vllg/refunds',
                 [],
                 '{"amount":{"value":"12.00","currency":"EUR"}}'
             ),

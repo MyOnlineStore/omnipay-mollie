@@ -1,11 +1,8 @@
 <?php
 
-
 namespace Omnipay\Mollie\Message\Request;
 
-use function is_string;
 use Omnipay\Common\Exception\InvalidRequestException;
-use Omnipay\Common\Message\ResponseInterface;
 use Omnipay\Mollie\Message\Response\RefundResponse;
 
 /**
@@ -13,12 +10,14 @@ use Omnipay\Mollie\Message\Response\RefundResponse;
  * The amount of the refund will be withheld from your next settlement.
  *
  * @see https://docs.mollie.com/reference/v2/refunds-api/create-refund
+ *
  * @method RefundResponse send()
  */
 class RefundRequest extends AbstractMollieRequest
 {
     /**
      * @return array
+     *
      * @throws InvalidRequestException
      */
     public function getData()
@@ -28,11 +27,11 @@ class RefundRequest extends AbstractMollieRequest
         $data = [];
 
         $data['amount'] = [
-            "value" => $this->getAmount(),
-            "currency" => $this->getCurrency()
+            'value' => $this->getAmount(),
+            'currency' => $this->getCurrency(),
         ];
 
-        if (is_string($this->getParameter('description'))) {
+        if (\is_string($this->getParameter('description'))) {
             $data['description'] = $this->getParameter('description');
         }
 
@@ -41,7 +40,8 @@ class RefundRequest extends AbstractMollieRequest
 
     /**
      * @param array $data
-     * @return ResponseInterface|RefundResponse
+     *
+     * @return RefundResponse
      */
     public function sendData($data)
     {

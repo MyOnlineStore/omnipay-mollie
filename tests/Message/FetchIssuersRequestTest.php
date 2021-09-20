@@ -13,17 +13,15 @@ class FetchIssuersRequestTest extends TestCase
 {
     use AssertRequestTrait;
 
-    /**
-     * @var FetchIssuersRequest
-     */
+    /** @var FetchIssuersRequest */
     protected $request;
 
     public function setUp(): void
     {
         $this->request = new FetchIssuersRequest($this->getHttpClient(), $this->getHttpRequest());
-        $this->request->initialize(array(
-            'apiKey' => 'mykey'
-        ));
+        $this->request->initialize([
+            'apiKey' => 'mykey',
+        ]);
     }
 
     /**
@@ -42,7 +40,7 @@ class FetchIssuersRequestTest extends TestCase
         $response = $this->request->send();
 
         $this->assertEqualRequest(
-            new Request("GET", "https://api.mollie.com/v2/methods/ideal?include=issuers"),
+            new Request('GET', 'https://api.mollie.com/v2/methods/ideal?include=issuers'),
             $this->getMockClient()->getLastRequest()
         );
 
@@ -54,7 +52,7 @@ class FetchIssuersRequestTest extends TestCase
         $expectedIssuer = new Issuer('ideal_ABNANL2A', 'ABN AMRO', 'ideal');
         $expectedIssuer2 = new Issuer('ideal_ASNBNL21', 'ASN Bank', 'ideal');
 
-        $this->assertEquals(array($expectedIssuer, $expectedIssuer2), $response->getIssuers());
+        $this->assertEquals([$expectedIssuer, $expectedIssuer2], $response->getIssuers());
     }
 
     public function testSendFailure()
@@ -63,7 +61,7 @@ class FetchIssuersRequestTest extends TestCase
         $response = $this->request->send();
 
         $this->assertEqualRequest(
-            new Request("GET", "https://api.mollie.com/v2/methods/ideal?include=issuers"),
+            new Request('GET', 'https://api.mollie.com/v2/methods/ideal?include=issuers'),
             $this->getMockClient()->getLastRequest()
         );
 
@@ -74,5 +72,4 @@ class FetchIssuersRequestTest extends TestCase
         $this->assertSame('{"status":401,"title":"Unauthorized Request","detail":"Missing authentication, or failed to authenticate","_links":{"documentation":{"href":"https:\/\/docs.mollie.com\/guides\/authentication","type":"text\/html"}}}', $response->getMessage());
         $this->assertEmpty($response->getIssuers());
     }
-
 }

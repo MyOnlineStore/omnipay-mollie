@@ -10,6 +10,7 @@ use Omnipay\Mollie\Message\Response\RevokeCustomerMandateResponse;
  * Revoke a customer's mandate.
  *
  * @see https://docs.mollie.com/reference/v2/mandates-api/revoke-mandate
+ *
  * @method RevokeCustomerMandateResponse send()
  */
 class RevokeCustomerMandateRequest extends AbstractMollieRequest
@@ -24,6 +25,7 @@ class RevokeCustomerMandateRequest extends AbstractMollieRequest
 
     /**
      * @param string $value
+     *
      * @return AbstractRequest
      */
     public function setCustomerReference($value)
@@ -41,6 +43,7 @@ class RevokeCustomerMandateRequest extends AbstractMollieRequest
 
     /**
      * @param string $value
+     *
      * @return AbstractRequest
      */
     public function setMandateId($value)
@@ -50,6 +53,7 @@ class RevokeCustomerMandateRequest extends AbstractMollieRequest
 
     /**
      * @return array
+     *
      * @throws InvalidRequestException
      */
     public function getData()
@@ -61,9 +65,10 @@ class RevokeCustomerMandateRequest extends AbstractMollieRequest
 
         return $data;
     }
-    
+
     /**
      * @param array $data
+     *
      * @return RevokeCustomerMandateResponse
      */
     public function sendData($data)

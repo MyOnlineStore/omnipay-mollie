@@ -12,9 +12,7 @@ class RevokeCustomerMandateRequestTest extends TestCase
 {
     use AssertRequestTrait;
 
-    /**
-     * @var RevokeCustomerMandateRequest
-     */
+    /** @var RevokeCustomerMandateRequest */
     protected $request;
 
     public function setUp(): void
@@ -22,9 +20,9 @@ class RevokeCustomerMandateRequestTest extends TestCase
         $this->request = new RevokeCustomerMandateRequest($this->getHttpClient(), $this->getHttpRequest());
 
         $this->request->initialize([
-            'apiKey' => "mykey",
+            'apiKey' => 'mykey',
             'customerReference' => 'cst_bSNBBJBzdG',
-            'mandateId' => "mdt_pWUnw6pkBN",
+            'mandateId' => 'mdt_pWUnw6pkBN',
         ]);
     }
 
@@ -34,24 +32,24 @@ class RevokeCustomerMandateRequestTest extends TestCase
     public function testData()
     {
         $this->request->initialize([
-            'apiKey' => "mykey",
+            'apiKey' => 'mykey',
             'customerReference' => 'cst_bSNBBJBzdG',
-            'mandateId' => "mdt_pWUnw6pkBN",
+            'mandateId' => 'mdt_pWUnw6pkBN',
         ]);
 
         $data = $this->request->getData();
-        $this->assertSame("cst_bSNBBJBzdG", $data['customerReference']);
-        $this->assertSame("mdt_pWUnw6pkBN", $data['mandateId']);
+        $this->assertSame('cst_bSNBBJBzdG', $data['customerReference']);
+        $this->assertSame('mdt_pWUnw6pkBN', $data['mandateId']);
     }
 
     public function testSendSuccess()
     {
         $this->setMockHttpResponse('RevokeCustomerMandateSuccess.txt');
 
-        /** @var RevokeCustomerMandateResponse $response */
         $response = $this->request->send();
+        \assert($response instanceof RevokeCustomerMandateResponse);
 
-        $this->assertEqualRequest(new Request("DELETE", "https://api.mollie.com/v2/customers/cst_bSNBBJBzdG/mandates/mdt_pWUnw6pkBN"), $this->getMockClient()->getLastRequest());
+        $this->assertEqualRequest(new Request('DELETE', 'https://api.mollie.com/v2/customers/cst_bSNBBJBzdG/mandates/mdt_pWUnw6pkBN'), $this->getMockClient()->getLastRequest());
 
         $this->assertInstanceOf(RevokeCustomerMandateResponse::class, $response);
 

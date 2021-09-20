@@ -10,6 +10,7 @@ use Omnipay\Mollie\Message\Response\CreateCustomerResponse;
  * Creates a simple minimal representation of a customer in the Mollie API.
  *
  * @see https://docs.mollie.com/reference/v2/customers-api/create-customer
+ *
  * @method CreateCustomerResponse send()
  */
 class CreateCustomerRequest extends AbstractMollieRequest
@@ -26,6 +27,7 @@ class CreateCustomerRequest extends AbstractMollieRequest
 
     /**
      * @param string $value
+     *
      * @return AbstractRequest
      */
     public function setEmail($value)
@@ -49,6 +51,7 @@ class CreateCustomerRequest extends AbstractMollieRequest
      * Optional value.
      *
      * @param string $value
+     *
      * @return AbstractRequest
      */
     public function setLocale($value)
@@ -70,6 +73,7 @@ class CreateCustomerRequest extends AbstractMollieRequest
      * Optional value.
      *
      * @param array $value
+     *
      * @return AbstractRequest
      */
     public function setMetadata($value)
@@ -79,6 +83,7 @@ class CreateCustomerRequest extends AbstractMollieRequest
 
     /**
      * @return array
+     *
      * @throws InvalidRequestException
      */
     public function getData()
@@ -99,6 +104,7 @@ class CreateCustomerRequest extends AbstractMollieRequest
 
     /**
      * @param array $data
+     *
      * @return CreateCustomerResponse
      */
     public function sendData($data)

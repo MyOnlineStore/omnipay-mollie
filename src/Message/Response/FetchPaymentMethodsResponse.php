@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Omnipay\Mollie\Message\Response;
 
@@ -15,14 +16,14 @@ class FetchPaymentMethodsResponse extends AbstractMollieResponse implements Fetc
      *
      * @return PaymentMethod[]
      */
-    public function getPaymentMethods()
+    public function getPaymentMethods(): array
     {
-        if (isset($this->data['_embedded']["methods"]) === false) {
+        if (false === isset($this->data['_embedded']['methods'])) {
             return [];
         }
 
         $paymentMethods = [];
-        foreach ($this->data['_embedded']["methods"] as $method) {
+        foreach ($this->data['_embedded']['methods'] as $method) {
             $paymentMethods[] = new PaymentMethod($method['id'], $method['description']);
         }
 

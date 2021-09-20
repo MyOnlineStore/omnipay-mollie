@@ -10,6 +10,7 @@ use Omnipay\Mollie\Message\Response\CreateCustomerMandateResponse;
  * Create a mandate for a specific customer.
  *
  * @see https://docs.mollie.com/reference/v2/mandates-api/create-mandate
+ *
  * @method CreateCustomerMandateResponse send()
  */
 class CreateCustomerMandateRequest extends AbstractMollieRequest
@@ -24,6 +25,7 @@ class CreateCustomerMandateRequest extends AbstractMollieRequest
 
     /**
      * @param string $method
+     *
      * @return AbstractRequest
      */
     public function setMethod($method)
@@ -41,6 +43,7 @@ class CreateCustomerMandateRequest extends AbstractMollieRequest
 
     /**
      * @param string $consumerName
+     *
      * @return AbstractRequest
      */
     public function setConsumerName($consumerName)
@@ -58,6 +61,7 @@ class CreateCustomerMandateRequest extends AbstractMollieRequest
 
     /**
      * @param string $consumerAccount
+     *
      * @return AbstractRequest
      */
     public function setConsumerAccount($consumerAccount)
@@ -75,6 +79,7 @@ class CreateCustomerMandateRequest extends AbstractMollieRequest
 
     /**
      * @param string $consumerBic
+     *
      * @return AbstractRequest
      */
     public function setConsumerBic($consumerBic)
@@ -92,6 +97,7 @@ class CreateCustomerMandateRequest extends AbstractMollieRequest
 
     /**
      * @param string $signatureDate
+     *
      * @return AbstractRequest
      */
     public function setSignatureDate($signatureDate)
@@ -109,6 +115,7 @@ class CreateCustomerMandateRequest extends AbstractMollieRequest
 
     /**
      * @param string $mandateReference
+     *
      * @return AbstractRequest
      */
     public function setMandateReference($mandateReference)
@@ -126,6 +133,7 @@ class CreateCustomerMandateRequest extends AbstractMollieRequest
 
     /**
      * @param string $customerReference
+     *
      * @return AbstractRequest
      */
     public function setCustomerReference($customerReference)
@@ -133,16 +141,16 @@ class CreateCustomerMandateRequest extends AbstractMollieRequest
         return $this->setParameter('customerReference', $customerReference);
     }
 
-
     /**
      * @return array
+     *
      * @throws InvalidRequestException
      */
     public function getData()
     {
         $this->validate('apiKey', 'customerReference', 'method', 'consumerName', 'consumerAccount');
 
-        $data = array();
+        $data = [];
         $data['method'] = $this->getMethod();
         $data['consumerName'] = $this->getConsumerName();
         $data['consumerAccount'] = $this->getConsumerAccount();
@@ -164,6 +172,7 @@ class CreateCustomerMandateRequest extends AbstractMollieRequest
 
     /**
      * @param array $data
+     *
      * @return CreateCustomerMandateResponse
      */
     public function sendData($data)

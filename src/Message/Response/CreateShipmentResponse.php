@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Omnipay\Mollie\Message\Response;
 
@@ -7,5 +8,4 @@ namespace Omnipay\Mollie\Message\Response;
  */
 class CreateShipmentResponse extends FetchOrderResponse
 {
-
 }

@@ -10,6 +10,7 @@ use Omnipay\Mollie\Message\Response\FetchCustomerResponse;
  * Retrieve a single customer by its ID.
  *
  * @see https://docs.mollie.com/reference/v2/customers-api/get-customer
+ *
  * @method FetchCustomerResponse send()
  */
 class FetchCustomerRequest extends AbstractMollieRequest
@@ -24,6 +25,7 @@ class FetchCustomerRequest extends AbstractMollieRequest
 
     /**
      * @param string $value
+     *
      * @return AbstractRequest
      */
     public function setCustomerReference($value)
@@ -33,6 +35,7 @@ class FetchCustomerRequest extends AbstractMollieRequest
 
     /**
      * @return array
+     *
      * @throws InvalidRequestException
      */
     public function getData()
@@ -44,6 +47,7 @@ class FetchCustomerRequest extends AbstractMollieRequest
 
     /**
      * @param array $data
+     *
      * @return FetchCustomerResponse
      */
     public function sendData($data)

@@ -8,6 +8,7 @@ use Omnipay\Mollie\Message\Response\CancelOrderResponse;
  * Cancel an order with the Mollie API.
  *
  * @see https://docs.mollie.com/reference/v2/orders-api/cancel-order
+ *
  * @method CancelOrderResponse send()
  */
 final class CancelOrderRequest extends AbstractMollieRequest
@@ -29,7 +30,7 @@ final class CancelOrderRequest extends AbstractMollieRequest
     {
         return $this->response = new CancelOrderResponse(
             $this,
-            $this->sendRequest(self::DELETE, '/orders/'.$this->getTransactionReference(), $data)
+            $this->sendRequest(self::DELETE, '/orders/' . $this->getTransactionReference(), $data)
         );
     }
 }

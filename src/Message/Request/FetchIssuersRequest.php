@@ -4,12 +4,12 @@ namespace Omnipay\Mollie\Message\Request;
 
 use Omnipay\Common\Exception\InvalidRequestException;
 use Omnipay\Mollie\Message\Response\FetchIssuersResponse;
-use Psr\Http\Message\ResponseInterface;
 
 /**
  * Returns issuers available for the ideal payment method.
  *
  * @see https://docs.mollie.com/reference/v2/methods-api/get-method
+ *
  * @method FetchIssuersResponse send()
  */
 class FetchIssuersRequest extends AbstractMollieRequest
@@ -24,6 +24,7 @@ class FetchIssuersRequest extends AbstractMollieRequest
 
     /**
      * @return array
+     *
      * @throws InvalidRequestException
      */
     public function getData()
@@ -35,9 +36,8 @@ class FetchIssuersRequest extends AbstractMollieRequest
 
     /**
      * @param array $data
-     * @return ResponseInterface|FetchIssuersResponse
      */
-    public function sendData($data)
+    public function sendData($data): FetchIssuersResponse
     {
         $response = $this->sendRequest(self::GET, $this->endpoint);
 

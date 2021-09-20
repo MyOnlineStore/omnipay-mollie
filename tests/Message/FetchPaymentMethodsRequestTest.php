@@ -15,9 +15,7 @@ class FetchPaymentMethodsRequestTest extends TestCase
 
     protected static $expectedRequestUri = 'https://api.mollie.com/v2/methods?amount%5Bvalue%5D=22.56&amount%5Bcurrency%5D=SEK&billingCountry=SE&locale=sv_SE&resource=orders&includeWallets=applepay&sequenceType=oneoff';
 
-    /**
-     * @var FetchPaymentMethodsRequest
-     */
+    /** @var FetchPaymentMethodsRequest */
     protected $request;
 
     public function setUp(): void
@@ -59,7 +57,7 @@ class FetchPaymentMethodsRequestTest extends TestCase
         $this->request->initialize([
             'apiKey' => 'mykey',
         ]);
-        $this->assertEmpty(array_filter($this->request->getData()));
+        $this->assertEmpty(\array_filter($this->request->getData()));
         $this->request->send();
         $this->assertEqualRequest(
             new Request('GET', 'https://api.mollie.com/v2/methods'),

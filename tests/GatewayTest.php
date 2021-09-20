@@ -71,7 +71,7 @@ final class GatewayTest extends GatewayTestCase
                 'apiKey'               => 'key',
                 'transactionReference' => 'tr_Qzin4iTWrU',
                 'amount'               => '10.00',
-                'currency'             => 'EUR'
+                'currency'             => 'EUR',
             ]
         );
 
@@ -80,7 +80,7 @@ final class GatewayTest extends GatewayTestCase
         $this->assertSame(
             [
                 'value' => '10.00',
-                'currency' => 'EUR'
+                'currency' => 'EUR',
             ],
             $data['amount']
         );
@@ -93,7 +93,7 @@ final class GatewayTest extends GatewayTestCase
         $request = $this->gateway->refund(
             [
                 'apiKey'               => 'key',
-                'transactionReference' => 'tr_Qzin4iTWrU'
+                'transactionReference' => 'tr_Qzin4iTWrU',
             ]
         );
 

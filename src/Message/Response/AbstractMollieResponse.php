@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Omnipay\Mollie\Message\Response;
 
@@ -6,23 +7,13 @@ use Omnipay\Common\Message\AbstractResponse;
 
 class AbstractMollieResponse extends AbstractResponse
 {
-    /**
-     * @return bool
-     */
-    public function isSuccessful()
+    public function isSuccessful(): bool
     {
-        if (isset($this->data['status']) && isset($this->data['detail'])) {
-            return false;
-        }
-
-        return true;
+        return !isset($this->data['status'], $this->data['detail']);
     }
 
-    /**
-     * @return string
-     */
-    public function getMessage()
+    public function getMessage(): string
     {
-        return json_encode($this->data);
+        return \json_encode($this->data);
     }
 }

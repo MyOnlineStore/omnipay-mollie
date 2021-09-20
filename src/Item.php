@@ -9,11 +9,12 @@ class Item extends \Omnipay\Common\Item
      *
      * @param $key
      * @param $value
+     *
      * @return $this
      */
     protected function setParameter($key, $value)
     {
-        if (is_array($value) && isset($value['value'])) {
+        if (\is_array($value) && isset($value['value'])) {
             $value = $value['value'];
         }
 
@@ -141,7 +142,6 @@ class Item extends \Omnipay\Common\Item
     {
         return $this->setParameter('status', $value);
     }
-
 
     public function getIsCancelable()
     {

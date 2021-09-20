@@ -3,13 +3,13 @@
 namespace Omnipay\Mollie\Message\Request;
 
 use Omnipay\Common\Exception\InvalidRequestException;
-use Omnipay\Common\Message\ResponseInterface;
 use Omnipay\Mollie\Message\Response\PurchaseResponse;
 
 /**
  * Create a payment with the Mollie API.
  *
  * @see https://docs.mollie.com/reference/v2/payments-api/create-payment
+ *
  * @method PurchaseResponse send()
  */
 class PurchaseRequest extends AbstractMollieRequest
@@ -24,6 +24,7 @@ class PurchaseRequest extends AbstractMollieRequest
 
     /**
      * @param array $value
+     *
      * @return $this
      */
     public function setMetadata(array $value)
@@ -41,6 +42,7 @@ class PurchaseRequest extends AbstractMollieRequest
 
     /**
      * @param string $value
+     *
      * @return $this
      */
     public function setLocale($value)
@@ -58,6 +60,7 @@ class PurchaseRequest extends AbstractMollieRequest
 
     /**
      * @param string $value
+     *
      * @return $this
      */
     public function setBillingEmail($value)
@@ -75,6 +78,7 @@ class PurchaseRequest extends AbstractMollieRequest
 
     /**
      * @param string $value
+     *
      * @return $this
      */
     public function setCustomerReference($value)
@@ -92,13 +96,14 @@ class PurchaseRequest extends AbstractMollieRequest
 
     /**
      * @param string $value
+     *
      * @return $this
      */
     public function setMandateId($value)
     {
         return $this->setParameter('mandateId', $value);
     }
-    
+
     /**
      * @return string
      */
@@ -109,6 +114,7 @@ class PurchaseRequest extends AbstractMollieRequest
 
     /**
      * @param string $value
+     *
      * @return $this
      */
     public function setSequenceType($value)
@@ -126,6 +132,7 @@ class PurchaseRequest extends AbstractMollieRequest
 
     /**
      * @param string $value
+     *
      * @return $this
      */
     public function setInclude($value)
@@ -133,9 +140,9 @@ class PurchaseRequest extends AbstractMollieRequest
         return $this->setParameter('include', $value);
     }
 
-
     /**
      * @return array
+     *
      * @throws InvalidRequestException
      */
     public function getData()
@@ -144,8 +151,8 @@ class PurchaseRequest extends AbstractMollieRequest
 
         $data = [];
         $data['amount'] = [
-            "value" => $this->getAmount(),
-            "currency" => $this->getCurrency()
+            'value' => $this->getAmount(),
+            'currency' => $this->getCurrency(),
         ];
         $data['description'] = $this->getDescription();
         $data['redirectUrl'] = $this->getReturnUrl();
@@ -180,7 +187,7 @@ class PurchaseRequest extends AbstractMollieRequest
         if ($sequenceType = $this->getSequenceType()) {
             $data['sequenceType'] = $sequenceType;
         }
-        
+
         if ($mandateId = $this->getMandateId()) {
             $data['mandateId'] = $mandateId;
         }
@@ -194,7 +201,8 @@ class PurchaseRequest extends AbstractMollieRequest
 
     /**
      * @param array $data
-     * @return ResponseInterface|PurchaseResponse
+     *
+     * @return PurchaseResponse
      */
     public function sendData($data)
     {

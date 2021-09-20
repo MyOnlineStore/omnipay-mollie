@@ -9,6 +9,7 @@ use Omnipay\Mollie\Message\Response\CreateShipmentResponse;
  * Create a shipment with the Mollie API.
  *
  * @see https://docs.mollie.com/reference/v2/shipments-api/create-shipment
+ *
  * @method CreateShipmentResponse send()
  */
 class CreateShipmentRequest extends AbstractMollieRequest
@@ -23,6 +24,7 @@ class CreateShipmentRequest extends AbstractMollieRequest
 
     /**
      * @param array $value
+     *
      * @return $this
      */
     public function setTracking(array $value)
@@ -30,9 +32,9 @@ class CreateShipmentRequest extends AbstractMollieRequest
         return $this->setParameter('tracking', $value);
     }
 
-
     /**
      * @return array
+     *
      * @throws InvalidRequestException
      */
     public function getData()
@@ -44,7 +46,7 @@ class CreateShipmentRequest extends AbstractMollieRequest
 
         if ($items = $this->getItems()) {
             foreach ($items as $item) {
-                $data['lines'][] = array_filter([
+                $data['lines'][] = \array_filter([
                     'id' => $item->getId(),
                     'quantity' => $item->getQuantity(),
                 ]);
@@ -60,6 +62,7 @@ class CreateShipmentRequest extends AbstractMollieRequest
 
     /**
      * @param array $data
+     *
      * @return CreateShipmentResponse
      */
     public function sendData($data)

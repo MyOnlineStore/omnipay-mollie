@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Omnipay\Mollie\Message\Response;
 
@@ -7,10 +8,7 @@ namespace Omnipay\Mollie\Message\Response;
  */
 final class CancelOrderResponse extends FetchOrderResponse
 {
-    /**
-     * @return bool
-     */
-    public function isSuccessful()
+    public function isSuccessful(): bool
     {
         if (!isset($this->data['status'])) {
             return false;

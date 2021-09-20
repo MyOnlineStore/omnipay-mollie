@@ -2,7 +2,6 @@
 
 namespace Omnipay\Mollie\Message\Request;
 
-use Omnipay\Common\ItemBag;
 use Omnipay\Common\Message\AbstractRequest;
 use Omnipay\Mollie\Gateway;
 use Omnipay\Mollie\Item;
@@ -14,18 +13,14 @@ use Omnipay\Mollie\Item;
  */
 abstract class AbstractMollieRequest extends AbstractRequest
 {
-    const POST = 'POST';
-    const GET = 'GET';
-    const DELETE = 'DELETE';
+    public const POST = 'POST';
+    public const GET = 'GET';
+    public const DELETE = 'DELETE';
 
-    /**
-     * @var string
-     */
-    protected $apiVersion = "v2";
+    /** @var string */
+    protected $apiVersion = 'v2';
 
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $baseUrl = 'https://api.mollie.com/';
 
     /**
@@ -38,6 +33,7 @@ abstract class AbstractMollieRequest extends AbstractRequest
 
     /**
      * @param string $value
+     *
      * @return $this
      */
     public function setApiKey($value)
@@ -65,6 +61,7 @@ abstract class AbstractMollieRequest extends AbstractRequest
 
     /**
      * @param string $value
+     *
      * @return $this
      */
     public function setVersionStrings(array $values)
@@ -73,8 +70,7 @@ abstract class AbstractMollieRequest extends AbstractRequest
     }
 
     /**
-     * @param string $value
-     * @return $this
+     * @inheritDoc
      */
     public function setTransactionId($value)
     {
@@ -82,7 +78,7 @@ abstract class AbstractMollieRequest extends AbstractRequest
     }
 
     /**
-     * @return string
+     * @inheritDoc
      */
     public function getTransactionId()
     {
@@ -93,13 +89,14 @@ abstract class AbstractMollieRequest extends AbstractRequest
      * Set the items in this order
      *
      * @param Item[] $items An array of items in this order
+     *
      * @return $this
      */
     public function setItems($items)
     {
         $orderItems = [];
         foreach ($items as $item) {
-            if (is_array($item)) {
+            if (\is_array($item)) {
                 $orderItems[] = new Item($item);
             } elseif (! ($item instanceof Item)) {
                 throw new \InvalidArgumentException('Item should be an instance of ' . Item::class);
@@ -112,36 +109,36 @@ abstract class AbstractMollieRequest extends AbstractRequest
     /**
      * @param string $method
      * @param string $endpoint
-     * @param array $data
+     * @param array  $data
+     *
      * @return array
      */
-    protected function sendRequest($method, $endpoint, array $data = null)
+    protected function sendRequest($method, $endpoint, ?array $data = null)
     {
         $versions = [
             'Omnipay-Mollie/' . Gateway::GATEWAY_VERSION,
         ];
 
         if ($customVersions = $this->getParameter('versionStrings')) {
-            $versions = array_merge($versions, $customVersions);
+            $versions = \array_merge($versions, $customVersions);
         }
 
         $headers = [
-            'Accept' => "application/json",
-            'Content-Type' => "application/json",
+            'Accept' => 'application/json',
+            'Content-Type' => 'application/json',
             'Authorization' => 'Bearer ' . $this->getApiKey(),
-            'User-Agent' => implode(' ', $versions),
+            'User-Agent' => \implode(' ', $versions),
         ];
 
         $response = $this->httpClient->request(
             $method,
             $this->baseUrl . $this->apiVersion . $endpoint,
             $headers,
-            ($data === null || $data === []) ? null : json_encode($data)
+            null === $data || [] === $data ? null : \json_encode($data)
         );
 
-        return json_decode($response->getBody(), true);
+        return \json_decode($response->getBody(), true);
     }
-
 
     protected function createAmountObject($amount)
     {

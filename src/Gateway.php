@@ -44,7 +44,7 @@ class Gateway extends AbstractGateway
     /**
      * Version of our gateway.
      */
-    const GATEWAY_VERSION = "5.2";
+    public const GATEWAY_VERSION = '5.2';
 
     /**
      * @return string
@@ -59,9 +59,9 @@ class Gateway extends AbstractGateway
      */
     public function getDefaultParameters()
     {
-        return array(
+        return [
             'apiKey' => '',
-        );
+        ];
     }
 
     /**
@@ -74,6 +74,7 @@ class Gateway extends AbstractGateway
 
     /**
      * @param  string $value
+     *
      * @return $this
      */
     public function setApiKey($value)
@@ -91,6 +92,7 @@ class Gateway extends AbstractGateway
 
     /**
      * @param  string $value
+     *
      * @return $this
      */
     public function setVersionStrings(array $values)
@@ -100,176 +102,189 @@ class Gateway extends AbstractGateway
 
     /**
      * @param  string $value
+     *
      * @return $this
      */
     public function addVersionString($value)
     {
         $versionStrings =  $this->getVersionStrings() ?: [];
-        $versionStrings[] = str_replace([" ", "\t", "\n", "\r"], '-', $value);
+        $versionStrings[] = \str_replace([' ', "\t", "\n", "\r"], '-', $value);
 
         return $this->setVersionStrings($versionStrings);
     }
 
     /**
      * @param  array $parameters
+     *
      * @return FetchIssuersRequest
      */
     public function fetchIssuers(array $parameters = [])
     {
-        /** @var FetchIssuersRequest $request */
         $request = $this->createRequest(FetchIssuersRequest::class, $parameters);
+        \assert($request instanceof FetchIssuersRequest);
 
         return $request;
     }
 
     /**
      * @param  array $parameters
+     *
      * @return FetchPaymentMethodsRequest
      */
     public function fetchPaymentMethods(array $parameters = [])
     {
-        /** @var FetchPaymentMethodsRequest $request */
         $request = $this->createRequest(FetchPaymentMethodsRequest::class, $parameters);
+        \assert($request instanceof FetchPaymentMethodsRequest);
 
         return $request;
     }
 
     /**
      * @param  array $parameters
+     *
      * @return FetchTransactionRequest
      */
     public function fetchTransaction(array $parameters = [])
     {
-        /** @var FetchTransactionRequest $request */
         $request = $this->createRequest(FetchTransactionRequest::class, $parameters);
+        \assert($request instanceof FetchTransactionRequest);
 
         return $request;
     }
 
     /**
      * @param  array $parameters
+     *
      * @return PurchaseRequest
      */
     public function purchase(array $parameters = [])
     {
-        /** @var PurchaseRequest $request */
         $request = $this->createRequest(PurchaseRequest::class, $parameters);
+        \assert($request instanceof PurchaseRequest);
 
         return $request;
     }
 
     /**
      * @param  array $parameters
+     *
      * @return CompletePurchaseRequest
      */
     public function completePurchase(array $parameters = [])
     {
-        /** @var CompletePurchaseRequest $request */
         $request = $this->createRequest(CompletePurchaseRequest::class, $parameters);
+        \assert($request instanceof CompletePurchaseRequest);
 
         return $request;
     }
 
     /**
      * @param  array $parameters
+     *
      * @return RefundRequest
      */
     public function refund(array $parameters = [])
     {
-        /** @var RefundRequest $request */
         $request = $this->createRequest(RefundRequest::class, $parameters);
+        \assert($request instanceof RefundRequest);
 
         return $request;
     }
 
     /**
      * @param  array $parameters
+     *
      * @return CreateOrderRequest
      */
     public function createOrder(array $parameters = [])
     {
-        /** @var CreateOrderRequest $request */
         $request = $this->createRequest(CreateOrderRequest::class, $parameters);
+        \assert($request instanceof CreateOrderRequest);
 
         return $request;
     }
 
-
     /**
      * @param  array $parameters
+     *
      * @return FetchOrderRequest
      */
     public function fetchOrder(array $parameters = [])
     {
-        /** @var FetchOrderRequest $request */
         $request = $this->createRequest(FetchOrderRequest::class, $parameters);
+        \assert($request instanceof FetchOrderRequest);
 
         return $request;
     }
 
-
     /**
      * @param  array $parameters
+     *
      * @return CompleteOrderRequest
      */
     public function completeOrder(array $parameters = [])
     {
-        /** @var CompleteOrderRequest $request */
         $request = $this->createRequest(CompleteOrderRequest::class, $parameters);
+        \assert($request instanceof CompleteOrderRequest);
 
         return $request;
     }
 
     /**
      * @param  array $parameters
+     *
      * @return CreateShipmentRequest
      */
     public function createShipment(array $parameters = [])
     {
-        /** @var CreateShipmentRequest $request */
         $request = $this->createRequest(CreateShipmentRequest::class, $parameters);
+        \assert($request instanceof CreateShipmentRequest);
 
         return $request;
     }
 
     /**
      * @param  array $parameters
+     *
      * @return CreateCustomerRequest
      */
     public function createCustomer(array $parameters = [])
     {
-        /** @var CreateCustomerRequest $request */
         $request = $this->createRequest(CreateCustomerRequest::class, $parameters);
+        \assert($request instanceof CreateCustomerRequest);
 
         return $request;
     }
 
     /**
      * @param  array $parameters
+     *
      * @return UpdateCustomerRequest
      */
     public function updateCustomer(array $parameters = [])
     {
-        /** @var UpdateCustomerRequest $request */
         $request = $this->createRequest(UpdateCustomerRequest::class, $parameters);
+        \assert($request instanceof UpdateCustomerRequest);
 
         return $request;
     }
 
     /**
      * @param  array $parameters
+     *
      * @return FetchCustomerRequest
      */
     public function fetchCustomer(array $parameters = [])
     {
-        /** @var FetchCustomerRequest $request */
         $request = $this->createRequest(FetchCustomerRequest::class, $parameters);
+        \assert($request instanceof FetchCustomerRequest);
 
         return $request;
     }
 
     /**
      * @param array $parameters
+     *
      * @return FetchCustomerMandatesRequest
      */
     public function fetchCustomerMandates(array $parameters = [])
@@ -279,6 +294,7 @@ class Gateway extends AbstractGateway
 
     /**
      * @param array $parameters
+     *
      * @return CreateCustomerMandateRequest
      */
     public function createCustomerMandate(array $parameters = [])
@@ -288,6 +304,7 @@ class Gateway extends AbstractGateway
 
     /**
      * @param array $parameters
+     *
      * @return RevokeCustomerMandateRequest
      */
     public function revokeCustomerMandate(array $parameters = [])
@@ -305,6 +322,7 @@ class Gateway extends AbstractGateway
 
     /**
      * @param  array $parameters
+     *
      * @return CancelOrderRequest
      */
     public function void(array $parameters = [])

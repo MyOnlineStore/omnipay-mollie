@@ -22,8 +22,8 @@ final class AbstractMollieRequestTest extends TestCase
         $request = $this->gateway->fetchIssuers();
         $request->send();
 
-        /** @var RequestInterface $httpRequest */
         $httpRequest = $this->getMockedRequests()[0];
+        \assert($httpRequest instanceof RequestInterface);
 
         $versionString = 'Omnipay-Mollie/' . Gateway::GATEWAY_VERSION;
         $this->assertEquals($versionString, $httpRequest->getHeaderLine('User-Agent'));
@@ -32,13 +32,13 @@ final class AbstractMollieRequestTest extends TestCase
     public function testCustomVersionStrings(): void
     {
         $this->gateway->initialize([
-            'versionStrings' => ['Acme/6.84']
+            'versionStrings' => ['Acme/6.84'],
         ]);
         $request = $this->gateway->fetchIssuers();
         $request->send();
 
-        /** @var RequestInterface $httpRequest */
         $httpRequest = $this->getMockedRequests()[0];
+        \assert($httpRequest instanceof RequestInterface);
 
         $versionString = 'Omnipay-Mollie/' . Gateway::GATEWAY_VERSION . ' Acme/6.84';
         $this->assertEquals($versionString, $httpRequest->getHeaderLine('User-Agent'));
@@ -50,8 +50,8 @@ final class AbstractMollieRequestTest extends TestCase
         $request = $this->gateway->fetchIssuers();
         $request->send();
 
-        /** @var RequestInterface $httpRequest */
         $httpRequest = $this->getMockedRequests()[0];
+        \assert($httpRequest instanceof RequestInterface);
 
         $versionString = 'Omnipay-Mollie/' . Gateway::GATEWAY_VERSION . ' Acme/6.84';
         $this->assertEquals($versionString, $httpRequest->getHeaderLine('User-Agent'));

@@ -7,7 +7,6 @@ use Omnipay\Common\Exception\InvalidRequestException;
 use Omnipay\Mollie\Item;
 use Omnipay\Mollie\Message\Request\CreateCustomerRequest;
 use Omnipay\Mollie\Message\Request\CreateShipmentRequest;
-use Omnipay\Mollie\Message\Response\CreateCustomerResponse;
 use Omnipay\Mollie\Message\Response\CreateShipmentResponse;
 use Omnipay\Tests\TestCase;
 
@@ -15,17 +14,14 @@ class CreateShipmentRequestTest extends TestCase
 {
     use AssertRequestTrait;
 
-    /**
-     *
-     * @var CreateCustomerRequest
-     */
+    /** @var CreateCustomerRequest */
     protected $request;
 
     public function setUp(): void
     {
         $this->request = new CreateShipmentRequest($this->getHttpClient(), $this->getHttpRequest());
 
-        $this->request->initialize(array(
+        $this->request->initialize([
             'apiKey' => 'mykey',
             'transactionReference' => 'ord_xxx',
             'items' => [
@@ -35,14 +31,14 @@ class CreateShipmentRequestTest extends TestCase
                 ],
                 [
                     'id' => 'odl_jp31jz',
-                ]
+                ],
             ],
             'tracking' => [
                 'carrier' => 'PostNL',
                 'code' => '3SKABA000000000',
                 'url' => 'http://postnl.nl/tracktrace/?B=3SKABA000000000&P=1016EE&D=NL&T=C',
-            ]
-        ));
+            ],
+        ]);
     }
 
     /**
@@ -52,10 +48,10 @@ class CreateShipmentRequestTest extends TestCase
     {
         $data = $this->request->getData();
 
-        $this->assertSame("odl_dgtxyl", $data['lines'][0]['id']);
+        $this->assertSame('odl_dgtxyl', $data['lines'][0]['id']);
         $this->assertSame(1, $data['lines'][0]['quantity']);
         $this->assertCount(2, $data['lines'][0]);
-        $this->assertSame("odl_jp31jz", $data['lines'][1]['id']);
+        $this->assertSame('odl_jp31jz', $data['lines'][1]['id']);
         $this->assertCount(1, $data['lines'][1]);
 
         $this->assertSame([
@@ -71,14 +67,14 @@ class CreateShipmentRequestTest extends TestCase
     {
         $this->setMockHttpResponse('CreateShipmentSuccess.txt');
 
-        /** @var CreateShipmentResponse $response */
         $response = $this->request->send();
+        \assert($response instanceof CreateShipmentResponse);
 
         $orderId = $this->request->getTransactionReference();
 
         $this->assertEqualRequest(
             new Request(
-                "POST",
+                'POST',
                 "https://api.mollie.com/v2/orders/{$orderId}/shipments",
                 [],
                 '{
@@ -115,16 +111,14 @@ class CreateShipmentRequestTest extends TestCase
 
         $this->assertCount(2, $response->getItems()->all());
 
-        /** @var Item $item */
         $item = $response->getItems()->all()[0];
+        \assert($item instanceof Item);
         $this->assertSame('5702016116977', $item->getSku());
         $this->assertSame(1, $item->getQuantity());
-        $this->assertSame('299.00',  $item->getTotalAmount());
+        $this->assertSame('299.00', $item->getTotalAmount());
 
         // We cannot parse _links, rest should match
         unset($line['_links']);
-        $this->assertSame(array_keys($line),  array_keys($item->getParameters()));
-
+        $this->assertSame(\array_keys($line), \array_keys($item->getParameters()));
     }
-
 }

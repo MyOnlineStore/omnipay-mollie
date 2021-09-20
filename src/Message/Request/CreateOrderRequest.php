@@ -5,7 +5,6 @@ namespace Omnipay\Mollie\Message\Request;
 use Omnipay\Common\CreditCard;
 use Omnipay\Common\Exception\InvalidRequestException;
 use Omnipay\Common\ItemBag;
-use Omnipay\Common\Message\ResponseInterface;
 use Omnipay\Mollie\Item;
 use Omnipay\Mollie\Message\Response\CreateOrderResponse;
 use Omnipay\Mollie\Message\Response\PurchaseResponse;
@@ -14,6 +13,7 @@ use Omnipay\Mollie\Message\Response\PurchaseResponse;
  * Create an order with the Mollie API.
  *
  * @see https://docs.mollie.com/reference/v2/orders-api/create-order
+ *
  * @method CreateOrderResponse send()
  */
 class CreateOrderRequest extends AbstractMollieRequest
@@ -35,6 +35,7 @@ class CreateOrderRequest extends AbstractMollieRequest
 
     /**
      * @param array $value
+     *
      * @return $this
      */
     public function setMetadata(array $value)
@@ -52,6 +53,7 @@ class CreateOrderRequest extends AbstractMollieRequest
 
     /**
      * @param string $value
+     *
      * @return $this
      */
     public function setLocale($value)
@@ -69,6 +71,7 @@ class CreateOrderRequest extends AbstractMollieRequest
 
     /**
      * @param string $value
+     *
      * @return $this
      */
     public function setOrderNumber($value)
@@ -86,6 +89,7 @@ class CreateOrderRequest extends AbstractMollieRequest
 
     /**
      * @param string $value
+     *
      * @return $this
      */
     public function setBillingEmail($value)
@@ -103,6 +107,7 @@ class CreateOrderRequest extends AbstractMollieRequest
 
     /**
      * @param string $value
+     *
      * @return $this
      */
     public function setCustomerReference($value)
@@ -120,6 +125,7 @@ class CreateOrderRequest extends AbstractMollieRequest
 
     /**
      * @param string $value
+     *
      * @return $this
      */
     public function setSequenceType($value)
@@ -131,6 +137,7 @@ class CreateOrderRequest extends AbstractMollieRequest
      * Alias for lines
      *
      * @param $items
+     *
      * @return $this
      */
     public function setLines($items)
@@ -150,6 +157,7 @@ class CreateOrderRequest extends AbstractMollieRequest
 
     /**
      * @return array
+     *
      * @throws InvalidRequestException
      */
     public function getData()
@@ -159,7 +167,7 @@ class CreateOrderRequest extends AbstractMollieRequest
         $data = [];
         $data['amount'] = [
             'value' => $this->getAmount(),
-            'currency' => $this->getCurrency()
+            'currency' => $this->getCurrency(),
         ];
 
         if ($card = $this->getCard()) {
@@ -203,14 +211,14 @@ class CreateOrderRequest extends AbstractMollieRequest
             $data['payment']['cardToken'] = $cardToken;
         }
 
-        return array_filter($data);
+        return \array_filter($data);
     }
 
     protected function getCardData(CreditCard $card)
     {
         $data = [];
 
-        $data['billingAddress'] = array_filter([
+        $data['billingAddress'] = \array_filter([
             'organizationName' => $card->getCompany(),
             'streetAndNumber' => $card->getAddress1(),
             'streetAdditional' => $card->getAddress2(),
@@ -226,7 +234,7 @@ class CreateOrderRequest extends AbstractMollieRequest
         ]);
 
         if ($card->getShippingAddress1()) {
-            $data['shippingAddress'] = array_filter([
+            $data['shippingAddress'] = \array_filter([
                 'organizationName' => $card->getCompany(),
                 'streetAndNumber' => $card->getShippingAddress1(),
                 'streetAdditional' => $card->getShippingAddress2(),
@@ -258,7 +266,7 @@ class CreateOrderRequest extends AbstractMollieRequest
             }
 
             if (null === $vatAmount) {
-                $vatAmount =  round($totalAmount * ($vatRate / (100 + $vatRate)), $this->getCurrencyDecimalPlaces());
+                $vatAmount =  \round($totalAmount * $vatRate / (100 + $vatRate), $this->getCurrencyDecimalPlaces());
             }
 
             $data = [
@@ -276,7 +284,7 @@ class CreateOrderRequest extends AbstractMollieRequest
             ];
 
             // Strip null values
-            $lines[] = array_filter($data);
+            $lines[] = \array_filter($data);
         }
 
         return $lines;
@@ -284,7 +292,8 @@ class CreateOrderRequest extends AbstractMollieRequest
 
     /**
      * @param array $data
-     * @return ResponseInterface|PurchaseResponse
+     *
+     * @return PurchaseResponse
      */
     public function sendData($data)
     {

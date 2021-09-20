@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Omnipay\Mollie\Message\Response;
 
@@ -7,10 +8,7 @@ namespace Omnipay\Mollie\Message\Response;
  */
 class CompleteOrderResponse extends FetchOrderResponse
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function isSuccessful()
+    public function isSuccessful(): bool
     {
         return parent::isSuccessful() && $this->isPaid();
     }
@@ -20,7 +18,7 @@ class CompleteOrderResponse extends FetchOrderResponse
      *
      * {@inheritdoc}
      */
-    public function isRedirect()
+    public function isRedirect(): bool
     {
         return false;
     }

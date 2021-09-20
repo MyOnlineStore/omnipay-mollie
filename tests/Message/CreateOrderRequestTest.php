@@ -12,9 +12,7 @@ final class CreateOrderRequestTest extends TestCase
 {
     use AssertRequestTrait;
 
-    /**
-     * @var CreateOrderRequest
-     */
+    /** @var CreateOrderRequest */
     protected $request;
 
     public function setUp(): void
@@ -94,7 +92,7 @@ final class CreateOrderRequestTest extends TestCase
     {
         $data = $this->request->getData();
 
-        $this->assertSame(["value" => "1027.99", "currency" => "EUR"], $data['amount']);
+        $this->assertSame(['value' => '1027.99', 'currency' => 'EUR'], $data['amount']);
         $this->assertSame('1337', $data['orderNumber']);
         $this->assertSame('https://example.org/redirect', $data['redirectUrl']);
         $this->assertSame('klarnapaylater', $data['method']);
@@ -188,7 +186,6 @@ final class CreateOrderRequestTest extends TestCase
         $this->assertInstanceOf(CreateOrderResponse::class, $response);
     }
 
-
     public function testSendSuccess(): void
     {
         $this->setMockHttpResponse('CreateOrderSuccess.txt');
@@ -196,14 +193,13 @@ final class CreateOrderRequestTest extends TestCase
 
         $this->assertEqualRequest(
             new Request(
-                "POST",
-                "https://api.mollie.com/v2/orders",
+                'POST',
+                'https://api.mollie.com/v2/orders',
                 [],
-                file_get_contents(__DIR__ . '/../Mock/CreateOrderRequest.txt')
+                \file_get_contents(__DIR__ . '/../Mock/CreateOrderRequest.txt')
             ),
             $this->getMockClient()->getLastRequest()
         );
-
 
         $this->assertInstanceOf(CreateOrderResponse::class, $response);
         $this->assertFalse($response->isSuccessful());
@@ -224,7 +220,7 @@ final class CreateOrderRequestTest extends TestCase
         $response = $this->request->send();
 
         $this->assertEqualRequest(
-            new Request("POST", "https://api.mollie.com/v2/orders"),
+            new Request('POST', 'https://api.mollie.com/v2/orders'),
             $this->getMockClient()->getLastRequest()
         );
 
