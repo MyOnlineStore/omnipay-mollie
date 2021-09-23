@@ -3,19 +3,20 @@
 namespace Omnipay\Mollie\Message\Request;
 
 use Omnipay\Common\Exception\InvalidRequestException;
-use Omnipay\Common\Message\ResponseInterface;
 use Omnipay\Mollie\Message\Response\FetchPaymentMethodsResponse;
 
 /**
  * Retrieve all available payment methods.
  *
  * @see https://docs.mollie.com/reference/v2/methods-api/list-methods
+ *
  * @method FetchPaymentMethodsResponse send()
  */
 class FetchPaymentMethodsRequest extends AbstractMollieRequest
 {
     /**
      * @param string $billingCountry
+     *
      * @return $this
      */
     public function setBillingCountry($billingCountry)
@@ -33,6 +34,7 @@ class FetchPaymentMethodsRequest extends AbstractMollieRequest
 
     /**
      * @param string $includeWallets
+     *
      * @return $this
      */
     public function setIncludeWallets($includeWallets)
@@ -50,6 +52,7 @@ class FetchPaymentMethodsRequest extends AbstractMollieRequest
 
     /**
      * @param string $locale
+     *
      * @return $this
      */
     public function setLocale($locale)
@@ -67,6 +70,7 @@ class FetchPaymentMethodsRequest extends AbstractMollieRequest
 
     /**
      * @param string $resource
+     *
      * @return $this
      */
     public function setResource($resource)
@@ -84,6 +88,7 @@ class FetchPaymentMethodsRequest extends AbstractMollieRequest
 
     /**
      * @param $sequenceType
+     *
      * @return $this
      */
     public function setSequenceType($sequenceType)
@@ -101,6 +106,7 @@ class FetchPaymentMethodsRequest extends AbstractMollieRequest
 
     /**
      * @return array
+     *
      * @throws InvalidRequestException
      */
     public function getData()
@@ -130,11 +136,12 @@ class FetchPaymentMethodsRequest extends AbstractMollieRequest
 
     /**
      * @param array $data
-     * @return ResponseInterface|FetchPaymentMethodsResponse
+     *
+     * @return FetchPaymentMethodsResponse
      */
     public function sendData($data)
     {
-        $query = http_build_query($data);
+        $query = \http_build_query($data);
         $response = $this->sendRequest(self::GET, '/methods' . ($query ? '?' . $query : ''));
 
         return $this->response = new FetchPaymentMethodsResponse($this, $response);

@@ -36,6 +36,9 @@
          "consumerDateOfBirth": "1958-01-31",
          "locale": "nl_NL",
          "orderNumber": "1337",
+         "payment": {
+            "cardToken": "qwe123asd"
+         },
          "redirectUrl": "https://example.org/redirect",
          "webhookUrl": "https://example.org/webhook",
          "method": "klarnapaylater",

@@ -12,19 +12,17 @@ class FetchTransactionRequestTest extends TestCase
 {
     use AssertRequestTrait;
 
-    /**
-     * @var FetchTransactionRequest
-     */
+    /** @var FetchTransactionRequest */
     protected $request;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->request = new FetchTransactionRequest($this->getHttpClient(), $this->getHttpRequest());
         $this->request->initialize(
-            array(
+            [
                 'apiKey'               => 'mykey',
                 'transactionReference' => 'tr_WDqYK6vllg',
-            )
+            ]
         );
     }
 
@@ -35,24 +33,23 @@ class FetchTransactionRequestTest extends TestCase
     {
         $data = $this->request->getData();
 
-        $this->assertSame("tr_WDqYK6vllg", $data['id']);
+        $this->assertSame('tr_WDqYK6vllg', $data['id']);
         $this->assertCount(1, $data);
     }
 
     public function testSendSuccess()
     {
         $this->setMockHttpResponse('FetchTransactionSuccess.txt');
-        /** @var FetchTransactionResponse $response */
         $response = $this->request->send();
+        \assert($response instanceof FetchTransactionResponse);
 
         $this->assertEqualRequest(
             new Request(
-                "GET",
-                "https://api.mollie.com/v2/payments/tr_WDqYK6vllg"
+                'GET',
+                'https://api.mollie.com/v2/payments/tr_WDqYK6vllg'
             ),
             $this->getMockClient()->getLastRequest()
         );
-
 
         $this->assertInstanceOf(FetchTransactionResponse::class, $response);
         $this->assertTrue($response->isSuccessful());
@@ -62,9 +59,9 @@ class FetchTransactionRequestTest extends TestCase
         $this->assertTrue($response->isRedirect());
         $this->assertFalse($response->isRefunded());
         $this->assertFalse($response->isPartialRefunded());
-        $this->assertSame("paid", $response->getStatus());
+        $this->assertSame('paid', $response->getStatus());
         $this->assertSame('tr_WDqYK6vllg', $response->getTransactionReference());
-        $this->assertSame("10.00", $response->getAmount());
+        $this->assertSame('10.00', $response->getAmount());
     }
 
     public function testSendExpired()
@@ -74,8 +71,8 @@ class FetchTransactionRequestTest extends TestCase
 
         $this->assertEqualRequest(
             new Request(
-                "GET",
-                "https://api.mollie.com/v2/payments/tr_WDqYK6vllg"
+                'GET',
+                'https://api.mollie.com/v2/payments/tr_WDqYK6vllg'
             ),
             $this->getMockClient()->getLastRequest()
         );
@@ -94,8 +91,8 @@ class FetchTransactionRequestTest extends TestCase
 
         $this->assertEqualRequest(
             new Request(
-                "GET",
-                "https://api.mollie.com/v2/payments/tr_WDqYK6vllg"
+                'GET',
+                'https://api.mollie.com/v2/payments/tr_WDqYK6vllg'
             ),
             $this->getMockClient()->getLastRequest()
         );

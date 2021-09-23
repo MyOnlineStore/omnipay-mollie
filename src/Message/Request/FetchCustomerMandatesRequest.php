@@ -10,6 +10,7 @@ use Omnipay\Mollie\Message\Response\FetchCustomerMandatesResponse;
  * Retrieve all mandates for the given customer.
  *
  * @see https://docs.mollie.com/reference/v2/mandates-api/list-mandates
+ *
  * @method FetchCustomerMandatesResponse send()
  */
 class FetchCustomerMandatesRequest extends AbstractMollieRequest
@@ -24,6 +25,7 @@ class FetchCustomerMandatesRequest extends AbstractMollieRequest
 
     /**
      * @param string $value
+     *
      * @return AbstractRequest
      */
     public function setCustomerReference($value)
@@ -33,17 +35,19 @@ class FetchCustomerMandatesRequest extends AbstractMollieRequest
 
     /**
      * @return array
+     *
      * @throws InvalidRequestException
      */
     public function getData()
     {
         $this->validate('apiKey', 'customerReference');
 
-        return array();
+        return [];
     }
 
     /**
      * @param array $data
+     *
      * @return FetchCustomerMandatesResponse
      */
     public function sendData($data)

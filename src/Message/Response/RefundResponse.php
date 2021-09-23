@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Omnipay\Mollie\Message\Response;
 
@@ -7,26 +8,17 @@ namespace Omnipay\Mollie\Message\Response;
  */
 class RefundResponse extends AbstractMollieResponse
 {
-    /**
-     * @return null|string
-     */
-    public function getTransactionReference()
+    public function getTransactionReference(): ?string
     {
         return $this->data['paymentId'];
     }
 
-    /**
-     * @return string
-     */
-    public function getTransactionId()
+    public function getTransactionId(): string
     {
         return $this->data['id'];
     }
 
-    /**
-     * @return bool
-     */
-    public function isSuccessful()
+    public function isSuccessful(): bool
     {
         return isset($this->data['id']);
     }

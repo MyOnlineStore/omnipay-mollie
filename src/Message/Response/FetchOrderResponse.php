@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Omnipay\Mollie\Message\Response;
 
@@ -10,18 +11,16 @@ use Omnipay\Mollie\Item;
  */
 class FetchOrderResponse extends FetchTransactionResponse
 {
-    public function getLines()
+    /**
+     * @return array<string, mixed>|null
+     */
+    public function getLines(): ?array
     {
-        if (isset($this->data['lines'])) {
-            return $this->data['lines'];
-        }
-
-        return null;
+        return $this->data['lines'] ?? null;
     }
 
-    public function getItems()
+    public function getItems(): ?ItemBag
     {
-
         if (isset($this->data['lines'])) {
             $items = [];
 
@@ -31,5 +30,7 @@ class FetchOrderResponse extends FetchTransactionResponse
 
             return new ItemBag($items);
         }
+
+        return null;
     }
 }

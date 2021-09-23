@@ -2,6 +2,7 @@
 
 namespace Omnipay\Mollie\Test\Message;
 
+use Omnipay\Common\Exception\InvalidRequestException;
 use Omnipay\Common\Http\ClientInterface;
 use Omnipay\Mollie\Message\Request\CancelOrderRequest;
 use Omnipay\Mollie\Message\Response\CancelOrderResponse;
@@ -10,17 +11,13 @@ use Psr\Http\Message\ResponseInterface;
 
 final class CancelOrderRequestTest extends TestCase
 {
-    /**
-     * @var ClientInterface|\PHPUnit_Framework_MockObject_MockObject
-     */
+    /** @var ClientInterface|\PHPUnit_Framework_MockObject_MockObject */
     private $httpClient;
 
-    /**
-     * @var CancelOrderRequest
-     */
+    /** @var CancelOrderRequest */
     private $request;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->httpClient = $this->createMock(ClientInterface::class);
         $this->request = new CancelOrderRequest($this->httpClient, $this->getHttpRequest());
@@ -46,12 +43,11 @@ final class CancelOrderRequestTest extends TestCase
     /**
      * @dataProvider insufficientDataProvider
      *
-     * @expectedException \Omnipay\Common\Exception\InvalidRequestException
-     *
      * @param array $input
      */
     public function testGetDataWillValidateRequiredData(array $input)
     {
+        $this->expectException(InvalidRequestException::class);
         $this->request->initialize($input);
         $this->request->getData();
     }
@@ -77,7 +73,9 @@ final class CancelOrderRequestTest extends TestCase
             ->with(
                 'DELETE',
                 'https://api.mollie.com/v2/orders/ord_kEn1PlbGa',
-                ['Authorization' => 'Bearer mykey']
+                $this->callback(static function ($headers) {
+                    return 'Bearer mykey' == $headers['Authorization'];
+                })
             )->willReturn($response);
 
         $this->request->initialize(['apiKey' => 'mykey', 'transactionReference' => 'ord_kEn1PlbGa']);

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Omnipay\Mollie\Message\Response;
 
@@ -7,20 +8,12 @@ namespace Omnipay\Mollie\Message\Response;
  */
 class CreateCustomerMandateResponse extends AbstractMollieResponse
 {
-    /**
-     * @return string
-     */
-    public function getMandateId()
+    public function getMandateId(): ?string
     {
-        if (isset($this->data['id'])) {
-            return $this->data['id'];
-        }
+        return $this->data['id'] ?? null;
     }
 
-    /**
-     * @return bool
-     */
-    public function isSuccessful()
+    public function isSuccessful(): bool
     {
         return isset($this->data['id']);
     }

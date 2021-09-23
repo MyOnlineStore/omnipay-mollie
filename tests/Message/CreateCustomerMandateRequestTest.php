@@ -12,23 +12,21 @@ class CreateCustomerMandateRequestTest extends TestCase
 {
     use AssertRequestTrait;
 
-    /**
-     * @var CreateCustomerMandateRequest
-     */
+    /** @var CreateCustomerMandateRequest */
     protected $request;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->request = new CreateCustomerMandateRequest($this->getHttpClient(), $this->getHttpRequest());
 
-        $this->request->initialize(array(
-            'apiKey' => "mykey",
-            'consumerName' => "Customer A",
-            'consumerAccount' => "NL53INGB0000000000",
-            "method" => "directdebit",
+        $this->request->initialize([
+            'apiKey' => 'mykey',
+            'consumerName' => 'Customer A',
+            'consumerAccount' => 'NL53INGB0000000000',
+            'method' => 'directdebit',
             'customerReference' => 'cst_bSNBBJBzdG',
-            'mandateReference' => "YOUR-COMPANY-MD13804"
-        ));
+            'mandateReference' => 'YOUR-COMPANY-MD13804',
+        ]);
     }
 
     /**
@@ -38,9 +36,9 @@ class CreateCustomerMandateRequestTest extends TestCase
     {
         $data = $this->request->getData();
 
-        $this->assertSame("NL53INGB0000000000", $data['consumerAccount']);
+        $this->assertSame('NL53INGB0000000000', $data['consumerAccount']);
         $this->assertSame('directdebit', $data['method']);
-        $this->assertSame("YOUR-COMPANY-MD13804", $data['mandateReference']);
+        $this->assertSame('YOUR-COMPANY-MD13804', $data['mandateReference']);
 
         $this->assertCount(4, $data);
     }
@@ -49,13 +47,13 @@ class CreateCustomerMandateRequestTest extends TestCase
     {
         $this->setMockHttpResponse('CreateCustomerMandateSuccess.txt');
 
-        /** @var CreateCustomerMandateResponse $response */
         $response = $this->request->send();
+        \assert($response instanceof CreateCustomerMandateResponse);
 
-        $this->assertEqualRequest(new Request("POST", "https://api.mollie.com/v2/customers/cst_bSNBBJBzdG/mandates"), $this->getMockClient()->getLastRequest());
+        $this->assertEqualRequest(new Request('POST', 'https://api.mollie.com/v2/customers/cst_bSNBBJBzdG/mandates'), $this->getMockClient()->getLastRequest());
 
         $this->assertInstanceOf(CreateCustomerMandateResponse::class, $response);
-        $this->assertSame("mdt_h3gAaD5zP", $response->getMandateId());
+        $this->assertSame('mdt_h3gAaD5zP', $response->getMandateId());
 
         $this->assertTrue($response->isSuccessful());
         $this->assertJsonStringEqualsJsonString(

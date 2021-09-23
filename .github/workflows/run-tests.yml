@@ -1,0 +1,39 @@
+name: Test
+
+on: push
+
+jobs:
+    test:
+        runs-on: ubuntu-latest
+
+        strategy:
+            matrix:
+                php: [ 8.0, 7.4, 7.2 ]
+
+        name: PHP-${{ matrix.php }}
+
+        steps:
+            -   name: Checkout code
+                uses: actions/checkout@v2
+
+            -   name: Setup PHP
+                uses: shivammathur/setup-php@v2
+                with:
+                    php-version: ${{ matrix.php }}
+                    coverage: none
+
+            -   name: Cache Dependencies
+                uses: actions/cache@v2
+                with:
+                    path: ~/.composer/cache
+                    key: php-${{ matrix.php}}-composer-${{ hashFiles('**/composer.json') }}
+                    restore-keys: php-${{ matrix.php}}-composer-
+
+            -   name: Install Dependencies
+                run: composer install --no-interaction --no-ansi --no-progress
+
+            -   name: Coding Standard
+                run: vendor/bin/phpcs --exclude=SlevomatCodingStandard.TypeHints.ReturnTypeHint,SlevomatCodingStandard.TypeHints.DeclareStrictTypes,SlevomatCodingStandard.Operators.DisallowEqualOperators,SlevomatCodingStandard.TypeHints.ParameterTypeHint,Generic.Files.LineLength,SlevomatCodingStandard.Classes.SuperfluousTraitNaming,SlevomatCodingStandard.TypeHints.PropertyTypeHint,SlevomatCodingStandard.Classes.SuperfluousAbstractClassNaming,Squiz.Strings.DoubleQuoteUsage,Squiz.Commenting.FunctionComment
+
+            -   name: Execute Unit Tests
+                run: composer test

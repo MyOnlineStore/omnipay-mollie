@@ -12,23 +12,20 @@ class CreateCustomerRequestTest extends TestCase
 {
     use AssertRequestTrait;
 
-    /**
-     *
-     * @var CreateCustomerRequest
-     */
+    /** @var CreateCustomerRequest */
     protected $request;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->request = new CreateCustomerRequest($this->getHttpClient(), $this->getHttpRequest());
 
-        $this->request->initialize(array(
+        $this->request->initialize([
             'apiKey'      => 'mykey',
             'description' => 'John Doe',
             'email'       => 'john@doe.com',
             'locale'      => 'nl_NL',
             'metadata'    => 'Just some meta data.',
-        ));
+        ]);
     }
 
     /**
@@ -36,15 +33,15 @@ class CreateCustomerRequestTest extends TestCase
      */
     public function testData()
     {
-        $this->request->initialize(array(
+        $this->request->initialize([
             'apiKey'      => 'mykey',
             'description' => 'John Doe',
             'email'       => 'john@doe.com',
             'metadata'    => 'Just some meta data.',
-        ));
+        ]);
         $data = $this->request->getData();
 
-        $this->assertSame("John Doe", $data['name']);
+        $this->assertSame('John Doe', $data['name']);
         $this->assertSame('john@doe.com', $data['email']);
         $this->assertSame('Just some meta data.', $data['metadata']);
         $this->assertCount(4, $data);
@@ -54,13 +51,13 @@ class CreateCustomerRequestTest extends TestCase
     {
         $this->setMockHttpResponse('CreateCustomerSuccess.txt');
 
-        /** @var CreateCustomerResponse $response */
         $response = $this->request->send();
+        \assert($response instanceof CreateCustomerResponse);
 
         $this->assertEqualRequest(
             new Request(
-                "POST",
-                "https://api.mollie.com/v2/customers",
+                'POST',
+                'https://api.mollie.com/v2/customers',
                 [],
                 '{  
                    "name":"John Doe",
@@ -87,7 +84,7 @@ class CreateCustomerRequestTest extends TestCase
         $this->setMockHttpResponse('CreateCustomerFailure.txt');
         $response = $this->request->send();
 
-        $this->assertEqualRequest(new Request("POST", "https://api.mollie.com/v2/customers"), $this->getMockClient()->getLastRequest());
+        $this->assertEqualRequest(new Request('POST', 'https://api.mollie.com/v2/customers'), $this->getMockClient()->getLastRequest());
 
         $this->assertInstanceOf(CreateCustomerResponse::class, $response);
         $this->assertFalse($response->isSuccessful());

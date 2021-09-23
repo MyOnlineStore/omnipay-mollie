@@ -1,65 +1,59 @@
 <?php
+declare(strict_types=1);
 
 namespace Omnipay\Mollie\Test\Message;
 
-use GuzzleHttp\Psr7\Request;
 use Omnipay\Mollie\Gateway;
-use Omnipay\Mollie\Message\Request\CompleteOrderRequest;
-use Omnipay\Mollie\Message\Request\CompletePurchaseRequest;
-use Omnipay\Mollie\Message\Response\CompleteOrderResponse;
-use Omnipay\Mollie\Message\Response\CompletePurchaseResponse;
 use Omnipay\Tests\TestCase;
+use Psr\Http\Message\RequestInterface;
 
-class AbstractMollieRequestTest extends TestCase
+final class AbstractMollieRequestTest extends TestCase
 {
-    /**
-     * @var Gateway
-     */
+    /** @var Gateway */
     protected $gateway;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->gateway = new Gateway($this->getHttpClient());
     }
 
-
-    public function testVersionString()
+    public function testVersionString(): void
     {
         $request = $this->gateway->fetchIssuers();
         $request->send();
 
-        /** @var \Psr\Http\Message\RequestInterface $httpRequest */
         $httpRequest = $this->getMockedRequests()[0];
+        \assert($httpRequest instanceof RequestInterface);
 
-        $versionString = 'Omnipay-Mollie/'.Gateway::GATEWAY_VERSION.' PHP/' . phpversion();
+        $versionString = 'Omnipay-Mollie/' . Gateway::GATEWAY_VERSION;
         $this->assertEquals($versionString, $httpRequest->getHeaderLine('User-Agent'));
     }
 
-    public function testCustomVersionStrings()
+    public function testCustomVersionStrings(): void
     {
         $this->gateway->initialize([
-            'versionStrings' => ['Acme/6.84']
+            'versionStrings' => ['Acme/6.84'],
         ]);
         $request = $this->gateway->fetchIssuers();
         $request->send();
 
-        /** @var \Psr\Http\Message\RequestInterface $httpRequest */
         $httpRequest = $this->getMockedRequests()[0];
+        \assert($httpRequest instanceof RequestInterface);
 
-        $versionString = 'Omnipay-Mollie/'.Gateway::GATEWAY_VERSION.' PHP/' . phpversion() . ' Acme/6.84';
+        $versionString = 'Omnipay-Mollie/' . Gateway::GATEWAY_VERSION . ' Acme/6.84';
         $this->assertEquals($versionString, $httpRequest->getHeaderLine('User-Agent'));
     }
 
-    public function testAddVersionString()
+    public function testAddVersionString(): void
     {
         $this->gateway->addVersionString('Acme/6.84');
         $request = $this->gateway->fetchIssuers();
         $request->send();
 
-        /** @var \Psr\Http\Message\RequestInterface $httpRequest */
         $httpRequest = $this->getMockedRequests()[0];
+        \assert($httpRequest instanceof RequestInterface);
 
-        $versionString = 'Omnipay-Mollie/'.Gateway::GATEWAY_VERSION.' PHP/' . phpversion() . ' Acme/6.84';
+        $versionString = 'Omnipay-Mollie/' . Gateway::GATEWAY_VERSION . ' Acme/6.84';
         $this->assertEquals($versionString, $httpRequest->getHeaderLine('User-Agent'));
     }
 }

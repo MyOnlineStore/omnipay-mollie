@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Omnipay\Mollie\Message\Response;
 
@@ -7,15 +8,8 @@ namespace Omnipay\Mollie\Message\Response;
  */
 class CreateCustomerResponse extends AbstractMollieResponse
 {
-    /**
-     * @return string|null
-     */
-    public function getCustomerReference()
+    public function getCustomerReference(): ?string
     {
-        if (isset($this->data['id'])) {
-            return $this->data['id'];
-        }
-
-        return null;
+        return $this->data['id'] ?? null;
     }
 }

@@ -10,6 +10,7 @@ use Omnipay\Mollie\Message\Response\UpdateCustomerResponse;
  * Update an existing customer.
  *
  * @see https://docs.mollie.com/reference/v2/customers-api/update-customer
+ *
  * @method UpdateCustomerResponse send()
  */
 class UpdateCustomerRequest extends AbstractMollieRequest
@@ -26,6 +27,7 @@ class UpdateCustomerRequest extends AbstractMollieRequest
 
     /**
      * @param string $value
+     *
      * @return AbstractRequest
      */
     public function setCustomerReference($value)
@@ -45,6 +47,7 @@ class UpdateCustomerRequest extends AbstractMollieRequest
 
     /**
      * @param string $value
+     *
      * @return AbstractRequest
      */
     public function setEmail($value)
@@ -68,6 +71,7 @@ class UpdateCustomerRequest extends AbstractMollieRequest
      * Optional value.
      *
      * @param string $value
+     *
      * @return AbstractRequest
      */
     public function setLocale($value)
@@ -89,6 +93,7 @@ class UpdateCustomerRequest extends AbstractMollieRequest
      * Optional value.
      *
      * @param array $value
+     *
      * @return AbstractRequest
      */
     public function setMetadata($value)
@@ -98,6 +103,7 @@ class UpdateCustomerRequest extends AbstractMollieRequest
 
     /**
      * @return array
+     *
      * @throws InvalidRequestException
      */
     public function getData()
@@ -118,6 +124,7 @@ class UpdateCustomerRequest extends AbstractMollieRequest
 
     /**
      * @param array $data
+     *
      * @return UpdateCustomerResponse
      */
     public function sendData($data)

@@ -1,0 +1,14 @@
+HTTP/1.1 403 Forbidden
+Content-Type: application/hal+json
+
+{
+  "status": 403,
+  "title": "Forbidden",
+  "detail": "This API endpoint is only available with an OAuth access token and cannot be accessed with an API key.",
+  "_links": {
+    "documentation": {
+      "href": "https://docs.mollie.com/overview/handling-errors",
+      "type": "text/html"
+    }
+  }
+}

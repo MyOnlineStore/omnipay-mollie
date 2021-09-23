@@ -3,19 +3,20 @@
 namespace Omnipay\Mollie\Message\Request;
 
 use Omnipay\Common\Exception\InvalidRequestException;
-use Omnipay\Common\Message\ResponseInterface;
 use Omnipay\Mollie\Message\Response\FetchTransactionResponse;
 
 /**
  * Retrieve a single payment object by its payment token.
  *
  * @see https://docs.mollie.com/reference/v2/payments-api/get-payment
+ *
  * @method FetchTransactionResponse send()
  */
 class FetchTransactionRequest extends AbstractMollieRequest
 {
     /**
      * @return array
+     *
      * @throws InvalidRequestException
      */
     public function getData()
@@ -30,7 +31,8 @@ class FetchTransactionRequest extends AbstractMollieRequest
 
     /**
      * @param array $data
-     * @return ResponseInterface|FetchTransactionResponse
+     *
+     * @return FetchTransactionResponse
      */
     public function sendData($data)
     {

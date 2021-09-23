@@ -12,19 +12,17 @@ class FetchCustomerMandatesRequestTest extends TestCase
 {
     use AssertRequestTrait;
 
-    /**
-     * @var FetchCustomerMandatesRequest
-     */
+    /** @var FetchCustomerMandatesRequest */
     protected $request;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->request = new FetchCustomerMandatesRequest($this->getHttpClient(), $this->getHttpRequest());
         $this->request->initialize(
-            array(
+            [
                 'apiKey'            => 'mykey',
                 'customerReference' => 'cst_R6JLAuqEgm',
-            )
+            ]
         );
     }
 
@@ -40,18 +38,18 @@ class FetchCustomerMandatesRequestTest extends TestCase
 
     public function testSendSuccess()
     {
-        $this->setMockHttpResponse("FetchCustomerMandatesSuccess.txt");
+        $this->setMockHttpResponse('FetchCustomerMandatesSuccess.txt');
 
         $response = $this->request->send();
 
-        $this->assertEqualRequest(new Request("GET", "https://api.mollie.com/v2/customers/cst_R6JLAuqEgm/mandates"), $this->getMockClient()->getLastRequest());
+        $this->assertEqualRequest(new Request('GET', 'https://api.mollie.com/v2/customers/cst_R6JLAuqEgm/mandates'), $this->getMockClient()->getLastRequest());
 
         $this->assertInstanceOf(FetchCustomerMandatesResponse::class, $response);
 
         $mandates = $response->getMandates();
 
-        $this->assertSame("mdt_AcQl5fdL4h", $mandates[0]['id']);
-        $this->assertSame("directdebit", $mandates[0]['method']);
+        $this->assertSame('mdt_AcQl5fdL4h', $mandates[0]['id']);
+        $this->assertSame('directdebit', $mandates[0]['method']);
 
         $this->assertTrue($response->hasValidMandates());
         $this->assertJsonStringEqualsJsonString(
