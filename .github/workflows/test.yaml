@@ -13,9 +13,9 @@ jobs:
                     coverage: none
             -   uses: ramsey/composer-install@v2
             -   id: set-php-versions
-                run: echo "::set-output name=php-versions::$(bin/devtools list:php-versions)"
+                run: echo "::set-output name=php-versions::$(vendor/bin/devtools list:php-versions)"
             -   id: set-tools
-                run: echo "::set-output name=tools::$(bin/devtools list:enabled-tools)"
+                run: echo "::set-output name=tools::$(vendor/bin/devtools list:enabled-tools)"
         outputs:
             php-versions: ${{ steps.set-php-versions.outputs.php-versions }}
             tools: ${{ steps.set-tools.outputs.tools }}
@@ -39,4 +39,4 @@ jobs:
             -   run: echo "::add-matcher::${{ runner.tool_cache }}/php.json"
             -   run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
 
-            -   run: bin/devtools ${{ matrix.tool }} --format=github
+            -   run: vendor/bin/devtools ${{ matrix.tool }} --format=github
