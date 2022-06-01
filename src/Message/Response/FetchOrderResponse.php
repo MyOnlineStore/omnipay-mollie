@@ -33,4 +33,24 @@ class FetchOrderResponse extends FetchTransactionResponse
 
         return null;
     }
+
+    /**
+     * Get the payments provided by enabling FetchOrderRequest::setIncludePayments()
+     *
+     * @return list<FetchTransactionResponse>
+     */
+    public function getPayments(): array
+    {
+        if (
+            !isset($this->data['_embedded']['payments'])
+            || !\is_array($this->data['_embedded']['payments'])
+        ) {
+            return [];
+        }
+
+        return \array_map(
+            fn (array $payment): FetchTransactionResponse => new FetchTransactionResponse($this->request, $payment),
+            $this->data['_embedded']['payments']
+        );
+    }
 }

@@ -33,23 +33,19 @@
         "psr-4": { "Omnipay\\Mollie\\Test\\": "tests/" }
     },
     "require": {
-        "php": "^7.2|^8.0",
+        "php": "^8.1",
         "omnipay/common": "^3.1"
     },
     "require-dev": {
         "omnipay/tests": "^4.1",
-        "vimeo/psalm": "^4.10",
-        "myonlinestore/coding-standard": "^3.1"
+        "vimeo/psalm": "^4.23",
+        "myonlinestore/coding-standard": "^3.1",
+        "myonlinestore/php-devtools": "^0.3.2"
     },
-    "extra": {
-        "branch-alias": {
-            "dev-master": "5.4.x-dev"
+    "prefer-stable": true,
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
         }
-    },
-    "scripts": {
-        "test": "phpunit",
-        "check-style": "phpcs -p --standard=PSR2 src/",
-        "fix-style": "phpcbf -p --standard=PSR2 src/"
-    },
-    "prefer-stable": true
+    }
 }
