@@ -15,11 +15,11 @@ use Omnipay\Mollie\Message\Response\CompleteOrderResponse;
 class CompleteOrderRequest extends FetchOrderRequest
 {
     /**
-     * @return array
+     * @return array<array-key, mixed>
      *
      * @throws InvalidRequestException
      */
-    public function getData()
+    public function getData(): array
     {
         $this->validate('apiKey');
 
@@ -38,11 +38,9 @@ class CompleteOrderRequest extends FetchOrderRequest
     }
 
     /**
-     * @param array $data
-     *
-     * @return CompleteOrderResponse
+     * @param array<array-key, mixed> $data
      */
-    public function sendData($data)
+    public function sendData($data): CompleteOrderResponse
     {
         $response = $this->sendRequest(self::GET, '/orders/' . $data['id']);
 
