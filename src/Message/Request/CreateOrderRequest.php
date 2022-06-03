@@ -1,13 +1,12 @@
 <?php
+declare(strict_types=1);
 
 namespace Omnipay\Mollie\Message\Request;
 
 use Omnipay\Common\CreditCard;
 use Omnipay\Common\Exception\InvalidRequestException;
 use Omnipay\Common\ItemBag;
-use Omnipay\Mollie\Item;
 use Omnipay\Mollie\Message\Response\CreateOrderResponse;
-use Omnipay\Mollie\Message\Response\PurchaseResponse;
 
 /**
  * Create an order with the Mollie API.
@@ -16,7 +15,7 @@ use Omnipay\Mollie\Message\Response\PurchaseResponse;
  *
  * @method CreateOrderResponse send()
  */
-class CreateOrderRequest extends AbstractMollieRequest
+final class CreateOrderRequest extends AbstractMollieRequest
 {
     /**
      * Lines can contain a negative amount (discounts etc.)
@@ -26,141 +25,136 @@ class CreateOrderRequest extends AbstractMollieRequest
     protected $negativeAmountAllowed = true;
 
     /**
-     * @return array
+     * @return array<array-key, mixed>|null
      */
-    public function getMetadata()
+    public function getMetadata(): ?array
     {
         return $this->getParameter('metadata');
     }
 
     /**
-     * @param array $value
+     * @param array<array-key, mixed> $value
      *
      * @return $this
      */
-    public function setMetadata(array $value)
+    public function setMetadata(array $value): static
     {
         return $this->setParameter('metadata', $value);
     }
 
-    /**
-     * @return string
-     */
-    public function getLocale()
+    public function getLocale(): ?string
     {
         return $this->getParameter('locale');
     }
 
     /**
-     * @param string $value
-     *
      * @return $this
      */
-    public function setLocale($value)
+    public function setLocale(string $value): static
     {
         return $this->setParameter('locale', $value);
     }
 
-    /**
-     * @return string
-     */
-    public function getOrderNumber()
+    public function getOrderNumber(): ?string
     {
         return $this->getParameter('orderNumber');
     }
 
     /**
-     * @param string $value
-     *
      * @return $this
      */
-    public function setOrderNumber($value)
+    public function setOrderNumber(string $value): static
     {
         return $this->setParameter('orderNumber', $value);
     }
 
-    /**
-     * @return string
-     */
-    public function getBillingEmail()
+    public function getBillingEmail(): ?string
     {
         return $this->getParameter('billingEmail');
     }
 
     /**
-     * @param string $value
-     *
      * @return $this
      */
-    public function setBillingEmail($value)
+    public function setBillingEmail(string $value): static
     {
         return $this->setParameter('billingEmail', $value);
     }
 
-    /**
-     * @return string
-     */
-    public function getCustomerReference()
+    public function getCustomerReference(): ?string
     {
         return $this->getParameter('customerReference');
     }
 
     /**
-     * @param string $value
-     *
      * @return $this
      */
-    public function setCustomerReference($value)
+    public function setCustomerReference(string $value): static
     {
         return $this->setParameter('customerReference', $value);
     }
 
-    /**
-     * @return string
-     */
-    public function getSequenceType()
+    public function getSequenceType(): ?string
     {
         return $this->getParameter('sequenceType');
     }
 
     /**
-     * @param string $value
+     * @return $this
+     */
+    public function setSequenceType(string $value): static
+    {
+        return $this->setParameter('sequenceType', $value);
+    }
+
+    public function hasIncludePayments(): bool
+    {
+        return (bool) $this->getParameter('includePayments');
+    }
+
+    /**
+     * @return $this
+     */
+    public function setIncludePayments(bool $includePayments = true): static
+    {
+        return $this->setParameter('includePayments', $includePayments);
+    }
+
+    public function hasEnablePaymentWebhook(): bool
+    {
+        return (bool) $this->getParameter('enablePaymentWebhook');
+    }
+
+    /**
+     * Enable webhook callbacks for payment changes. By default, your webhook is
+     * only called for order changes. Note that a payment (transaction) ID will
+     * be provided instead of an order ID for payment callbacks.
      *
      * @return $this
      */
-    public function setSequenceType($value)
+    public function setEnablePaymentWebhook(bool $enablePaymentWebhook = true): static
     {
-        return $this->setParameter('sequenceType', $value);
+        return $this->setParameter('enablePaymentWebhook', $enablePaymentWebhook);
     }
 
     /**
      * Alias for lines
      *
-     * @param $items
+     * @param array<array-key, mixed> $items
      *
      * @return $this
      */
-    public function setLines($items)
+    public function setLines(array $items): static
     {
         return $this->setItems($items);
     }
 
     /**
-     * A list of items in this order
-     *
-     * @return Item[]|null A bag containing items in this order
-     */
-    public function getItems()
-    {
-        return $this->getParameter('items');
-    }
-
-    /**
-     * @return array
+     * @return array<string, mixed>
      *
      * @throws InvalidRequestException
      */
-    public function getData()
+    public function getData(): array
     {
         $this->validate('apiKey', 'amount', 'locale', 'card', 'items', 'currency', 'orderNumber', 'returnUrl');
 
@@ -211,10 +205,17 @@ class CreateOrderRequest extends AbstractMollieRequest
             $data['payment']['cardToken'] = $cardToken;
         }
 
+        if ($this->hasEnablePaymentWebhook()) {
+            $data['payment']['webhookUrl'] = $data['webhookUrl'];
+        }
+
         return \array_filter($data);
     }
 
-    protected function getCardData(CreditCard $card)
+    /**
+     * @return array<string, string|array>
+     */
+    protected function getCardData(CreditCard $card): array
     {
         $data = [];
 
@@ -253,7 +254,10 @@ class CreateOrderRequest extends AbstractMollieRequest
         return $data;
     }
 
-    protected function getLines(ItemBag $items)
+    /**
+     * @return list<array<string, mixed>>
+     */
+    protected function getLines(ItemBag $items): array
     {
         $lines = [];
         foreach ($items as $item) {
@@ -291,13 +295,15 @@ class CreateOrderRequest extends AbstractMollieRequest
     }
 
     /**
-     * @param array $data
-     *
-     * @return PurchaseResponse
+     * @param array<array-key, mixed> $data
      */
-    public function sendData($data)
+    public function sendData($data): CreateOrderResponse
     {
-        $response = $this->sendRequest(self::POST, '/orders', $data);
+        $response = $this->sendRequest(
+            self::POST,
+            '/orders' . ($this->hasIncludePayments() ? '?embed=payments' : ''),
+            $data
+        );
 
         return $this->response = new CreateOrderResponse($this, $response);
     }

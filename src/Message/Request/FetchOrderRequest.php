@@ -15,11 +15,11 @@ use Omnipay\Mollie\Message\Response\FetchOrderResponse;
 class FetchOrderRequest extends AbstractMollieRequest
 {
     /**
-     * @return array
+     * @return array<array-key, mixed>
      *
      * @throws InvalidRequestException
      */
-    public function getData()
+    public function getData(): array
     {
         $this->validate('apiKey', 'transactionReference');
 
@@ -29,20 +29,23 @@ class FetchOrderRequest extends AbstractMollieRequest
         return $data;
     }
 
-    /**
-     * @return bool
-     */
-    public function hasIncludePayments()
+    public function hasIncludePayments(): bool
     {
         return (bool) $this->getParameter('includePayments');
     }
 
     /**
-     * @param array $data
-     *
-     * @return FetchOrderResponse
+     * @return $this
      */
-    public function sendData($data)
+    public function setIncludePayments(bool $includePayments = true): static
+    {
+        return $this->setParameter('includePayments', $includePayments);
+    }
+
+    /**
+     * @param array<array-key, mixed> $data
+     */
+    public function sendData($data): FetchOrderResponse
     {
         $response = $this->sendRequest(
             self::GET,
@@ -54,15 +57,5 @@ class FetchOrderRequest extends AbstractMollieRequest
         );
 
         return $this->response = new FetchOrderResponse($this, $response);
-    }
-
-    /**
-     * @param bool $includePayments
-     *
-     * @return self
-     */
-    public function setIncludePayments($includePayments)
-    {
-        return $this->setParameter('includePayments', $includePayments);
     }
 }

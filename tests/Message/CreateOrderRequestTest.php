@@ -6,14 +6,14 @@ namespace Omnipay\Mollie\Test\Message;
 use GuzzleHttp\Psr7\Request;
 use Omnipay\Mollie\Message\Request\CreateOrderRequest;
 use Omnipay\Mollie\Message\Response\CreateOrderResponse;
+use Omnipay\Mollie\Message\Response\FetchTransactionResponse;
 use Omnipay\Tests\TestCase;
 
 final class CreateOrderRequestTest extends TestCase
 {
     use AssertRequestTrait;
 
-    /** @var CreateOrderRequest */
-    protected $request;
+    protected CreateOrderRequest $request;
 
     public function setUp(): void
     {
@@ -107,6 +107,7 @@ final class CreateOrderRequestTest extends TestCase
         $data = $this->request->getData();
 
         $shippingAddress = $data['shippingAddress'];
+        self::assertIsArray($shippingAddress);
         $this->assertSame('Mollie B.V.', $shippingAddress['organizationName']);
         $this->assertSame('Prinsengracht 313', $shippingAddress['streetAndNumber']);
         $this->assertSame('4th floor', $shippingAddress['streetAdditional']);
@@ -120,6 +121,7 @@ final class CreateOrderRequestTest extends TestCase
         $this->assertSame('norris@chucknorrisfacts.net', $shippingAddress['email']);
 
         $billingAddress = $data['billingAddress'];
+        self::assertIsArray($billingAddress);
         $this->assertSame('Mollie B.V.', $billingAddress['organizationName']);
         $this->assertSame('Keizersgracht 313', $billingAddress['streetAndNumber']);
         $this->assertSame('Amsterdam', $billingAddress['city']);
@@ -137,9 +139,11 @@ final class CreateOrderRequestTest extends TestCase
     {
         $data = $this->request->getData();
 
+        self::assertIsArray($data['lines']);
         $this->assertCount(2, $data['lines']);
 
         $line = $data['lines'][0];
+        self::assertIsArray($line);
         $this->assertSame('physical', $line['type']);
         $this->assertSame('5702016116977', $line['sku']);
         $this->assertSame('LEGO 42083 Bugatti Chiron', $line['name']);
@@ -232,5 +236,39 @@ final class CreateOrderRequestTest extends TestCase
             '{"status":401,"title":"Unauthorized Request","detail":"Missing authentication, or failed to authenticate","_links":{"documentation":{"href":"https:\/\/docs.mollie.com\/guides\/authentication","type":"text\/html"}}}',
             $response->getMessage()
         );
+    }
+
+    public function testSendWithPaymentEmbeddedSuccess(): void
+    {
+        self::assertFalse($this->request->hasIncludePayments());
+        self::assertFalse($this->request->hasEnablePaymentWebhook());
+
+        $data = $this->request->getData();
+        self::assertArrayNotHasKey('webhookUrl', $data['payment']);
+
+        $this->request->setIncludePayments();
+        $this->request->setEnablePaymentWebhook();
+
+        $data = $this->request->getData();
+
+        self::assertTrue($this->request->hasIncludePayments());
+        self::assertTrue($this->request->hasEnablePaymentWebhook());
+        self::assertArrayHasKey('webhookUrl', $data['payment']);
+        self::assertSame($data['payment']['webhookUrl'], $data['webhookUrl']);
+
+        $this->setMockHttpResponse('CreateOrderWithPaymentSuccess.txt');
+        $response = $this->request->send();
+
+        self::assertStringContainsString(
+            '?embed=payments',
+            (string) $this->getMockClient()->getLastRequest()->getUri()
+        );
+        self::assertInstanceOf(CreateOrderResponse::class, $response);
+        self::assertFalse($response->isSuccessful());
+
+        $payments = $response->getPayments();
+
+        self::assertCount(1, $payments);
+        self::assertContainsOnlyInstancesOf(FetchTransactionResponse::class, $payments);
     }
 }

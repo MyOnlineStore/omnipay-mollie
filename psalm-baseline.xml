@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<files psalm-version="4.23.0@f1fe6ff483bf325c803df9f510d09a03fd796f88">
+  <file src="src/Gateway.php">
+    <InvalidDocblockParamName occurrences="1">
+      <code>$value</code>
+    </InvalidDocblockParamName>
+    <LessSpecificReturnStatement occurrences="5">
+      <code>$this-&gt;createRequest(CancelOrderRequest::class, $parameters)</code>
+      <code>$this-&gt;createRequest(CreateCustomerMandateRequest::class, $parameters)</code>
+      <code>$this-&gt;createRequest(FetchCustomerMandatesRequest::class, $parameters)</code>
+      <code>$this-&gt;createRequest(FetchProfileRequest::class, $parameters)</code>
+      <code>$this-&gt;createRequest(RevokeCustomerMandateRequest::class, $parameters)</code>
+    </LessSpecificReturnStatement>
+    <MoreSpecificReturnType occurrences="5">
+      <code>CancelOrderRequest</code>
+      <code>CreateCustomerMandateRequest</code>
+      <code>FetchCustomerMandatesRequest</code>
+      <code>FetchProfileRequest</code>
+      <code>RevokeCustomerMandateRequest</code>
+    </MoreSpecificReturnType>
+  </file>
+  <file src="src/Item.php">
+    <MissingParamType occurrences="26">
+      <code>$key</code>
+      <code>$value</code>
+      <code>$value</code>
+      <code>$value</code>
+      <code>$value</code>
+      <code>$value</code>
+      <code>$value</code>
+      <code>$value</code>
+      <code>$value</code>
+      <code>$value</code>
+      <code>$value</code>
+      <code>$value</code>
+      <code>$value</code>
+      <code>$value</code>
+      <code>$value</code>
+      <code>$value</code>
+      <code>$value</code>
+      <code>$value</code>
+      <code>$value</code>
+      <code>$value</code>
+      <code>$value</code>
+      <code>$value</code>
+      <code>$value</code>
+      <code>$value</code>
+      <code>$value</code>
+      <code>$value</code>
+    </MissingParamType>
+    <MissingReturnType occurrences="48">
+      <code>getAmountCanceled</code>
+      <code>getAmountRefunded</code>
+      <code>getAmountShipped</code>
+      <code>getCancelableQuantity</code>
+      <code>getCreatedAt</code>
+      <code>getDiscountAmount</code>
+      <code>getId</code>
+      <code>getImageUrl</code>
+      <code>getIsCancelable</code>
+      <code>getOrderId</code>
+      <code>getProductUrl</code>
+      <code>getQuantityCanceled</code>
+      <code>getQuantityRefunded</code>
+      <code>getQuantityShipped</code>
+      <code>getRefundableQuantity</code>
+      <code>getResource</code>
+      <code>getShippableQuantity</code>
+      <code>getSku</code>
+      <code>getStatus</code>
+      <code>getTotalAmount</code>
+      <code>getType</code>
+      <code>getUnitPrice</code>
+      <code>getVatAmount</code>
+      <code>getVatRate</code>
+      <code>setAmountCanceled</code>
+      <code>setAmountRefunded</code>
+      <code>setAmountShipped</code>
+      <code>setCancelableQuantity</code>
+      <code>setCreatedAt</code>
+      <code>setDiscountAmount</code>
+      <code>setId</code>
+      <code>setImageUrl</code>
+      <code>setIsCancelable</code>
+      <code>setOrderId</code>
+      <code>setProductUrl</code>
+      <code>setQuantityCanceled</code>
+      <code>setQuantityRefunded</code>
+      <code>setQuantityShipped</code>
+      <code>setRefundableQuantity</code>
+      <code>setResource</code>
+      <code>setShippableQuantity</code>
+      <code>setSku</code>
+      <code>setStatus</code>
+      <code>setTotalAmount</code>
+      <code>setType</code>
+      <code>setUnitPrice</code>
+      <code>setVatAmount</code>
+      <code>setVatRate</code>
+    </MissingReturnType>
+  </file>
+  <file src="src/Message/Request/AbstractMollieRequest.php">
+    <DocblockTypeContradiction occurrences="1">
+      <code>\is_array($item)</code>
+    </DocblockTypeContradiction>
+    <ImplicitToStringCast occurrences="1">
+      <code>$response-&gt;getBody()</code>
+    </ImplicitToStringCast>
+    <InvalidDocblockParamName occurrences="1">
+      <code>$value</code>
+    </InvalidDocblockParamName>
+    <MissingParamType occurrences="1">
+      <code>$amount</code>
+    </MissingParamType>
+    <MissingReturnType occurrences="1">
+      <code>createAmountObject</code>
+    </MissingReturnType>
+    <MoreSpecificImplementedParamType occurrences="1">
+      <code>$items</code>
+    </MoreSpecificImplementedParamType>
+  </file>
+  <file src="src/Message/Request/CompleteOrderRequest.php">
+    <MoreSpecificImplementedParamType occurrences="1">
+      <code>$data</code>
+    </MoreSpecificImplementedParamType>
+  </file>
+  <file src="src/Message/Request/CompletePurchaseRequest.php">
+    <MoreSpecificImplementedParamType occurrences="1">
+      <code>$data</code>
+    </MoreSpecificImplementedParamType>
+  </file>
+  <file src="src/Message/Request/CreateCustomerMandateRequest.php">
+    <MoreSpecificImplementedParamType occurrences="1">
+      <code>$data</code>
+    </MoreSpecificImplementedParamType>
+  </file>
+  <file src="src/Message/Request/CreateCustomerRequest.php">
+    <MoreSpecificImplementedParamType occurrences="1">
+      <code>$data</code>
+    </MoreSpecificImplementedParamType>
+  </file>
+  <file src="src/Message/Request/CreateOrderRequest.php">
+    <MoreSpecificImplementedParamType occurrences="1">
+      <code>$data</code>
+    </MoreSpecificImplementedParamType>
+    <RedundantCondition occurrences="2">
+      <code>$card</code>
+      <code>$card</code>
+    </RedundantCondition>
+    <RedundantConditionGivenDocblockType occurrences="1">
+      <code>$card = $this-&gt;getCard()</code>
+    </RedundantConditionGivenDocblockType>
+  </file>
+  <file src="src/Message/Request/CreateShipmentRequest.php">
+    <MoreSpecificImplementedParamType occurrences="1">
+      <code>$data</code>
+    </MoreSpecificImplementedParamType>
+  </file>
+  <file src="src/Message/Request/FetchCustomerMandatesRequest.php">
+    <MoreSpecificImplementedParamType occurrences="1">
+      <code>$data</code>
+    </MoreSpecificImplementedParamType>
+  </file>
+  <file src="src/Message/Request/FetchCustomerRequest.php">
+    <MoreSpecificImplementedParamType occurrences="1">
+      <code>$data</code>
+    </MoreSpecificImplementedParamType>
+  </file>
+  <file src="src/Message/Request/FetchIssuersRequest.php">
+    <MoreSpecificImplementedParamType occurrences="1">
+      <code>$data</code>
+    </MoreSpecificImplementedParamType>
+  </file>
+  <file src="src/Message/Request/FetchOrderRequest.php">
+    <MoreSpecificImplementedParamType occurrences="1">
+      <code>$data</code>
+    </MoreSpecificImplementedParamType>
+  </file>
+  <file src="src/Message/Request/FetchPaymentMethodsRequest.php">
+    <MissingParamType occurrences="1">
+      <code>$sequenceType</code>
+    </MissingParamType>
+    <MoreSpecificImplementedParamType occurrences="1">
+      <code>$data</code>
+    </MoreSpecificImplementedParamType>
+  </file>
+  <file src="src/Message/Request/FetchTransactionRequest.php">
+    <MoreSpecificImplementedParamType occurrences="1">
+      <code>$data</code>
+    </MoreSpecificImplementedParamType>
+  </file>
+  <file src="src/Message/Request/PurchaseRequest.php">
+    <MoreSpecificImplementedParamType occurrences="1">
+      <code>$data</code>
+    </MoreSpecificImplementedParamType>
+    <RedundantConditionGivenDocblockType occurrences="1">
+      <code>null !== $webhookUrl</code>
+    </RedundantConditionGivenDocblockType>
+  </file>
+  <file src="src/Message/Request/RefundRequest.php">
+    <MoreSpecificImplementedParamType occurrences="1">
+      <code>$data</code>
+    </MoreSpecificImplementedParamType>
+  </file>
+  <file src="src/Message/Request/RevokeCustomerMandateRequest.php">
+    <MoreSpecificImplementedParamType occurrences="1">
+      <code>$data</code>
+    </MoreSpecificImplementedParamType>
+    <PossiblyUndefinedVariable occurrences="1">
+      <code>$data</code>
+    </PossiblyUndefinedVariable>
+  </file>
+  <file src="src/Message/Request/UpdateCustomerRequest.php">
+    <MoreSpecificImplementedParamType occurrences="1">
+      <code>$data</code>
+    </MoreSpecificImplementedParamType>
+  </file>
+  <file src="src/Message/Response/FetchTransactionResponse.php">
+    <InvalidNullableReturnType occurrences="1">
+      <code>?array</code>
+    </InvalidNullableReturnType>
+    <NullableReturnStatement occurrences="3">
+      <code>$this-&gt;data['metadata']['transactionId'] ?? null</code>
+      <code>null</code>
+      <code>null</code>
+    </NullableReturnStatement>
+  </file>
+</files>
