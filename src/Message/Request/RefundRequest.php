@@ -51,6 +51,22 @@ class RefundRequest extends AbstractMollieRequest
             $data
         );
 
+        if (\array_key_exists('id', $response)) {
+            $this->setGatewayReference($response['id']);
+            $this->setTransactionReference($response['id']);
+        }
+
         return $this->response = new RefundResponse($this, $response);
+    }
+
+    public function getGatewayReference(): string | null
+    {
+        return $this->getParameter('gatewayReference');
+    }
+
+    /** @return $this */
+    public function setGatewayReference(string | null $value): static
+    {
+        return $this->setParameter('gatewayReference', $value);
     }
 }

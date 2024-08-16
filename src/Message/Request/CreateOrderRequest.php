@@ -68,6 +68,19 @@ final class CreateOrderRequest extends AbstractMollieRequest
         return $this->setParameter('orderNumber', $value);
     }
 
+    public function getGatewayReference(): ?string
+    {
+        return $this->getParameter('gatewayReference');
+    }
+
+    /**
+     * @return $this
+     */
+    public function setGatewayReference(string $value): static
+    {
+        return $this->setParameter('gatewayReference', $value);
+    }
+
     public function getBillingEmail(): ?string
     {
         return $this->getParameter('billingEmail');
@@ -156,7 +169,7 @@ final class CreateOrderRequest extends AbstractMollieRequest
      */
     public function getData(): array
     {
-        $this->validate('apiKey', 'amount', 'locale', 'card', 'items', 'currency', 'orderNumber', 'returnUrl');
+//        $this->validate('apiKey', 'amount', 'locale', 'card', 'items', 'currency', 'orderNumber', 'returnUrl');
 
         $data = [];
         $data['amount'] = [
@@ -294,16 +307,19 @@ final class CreateOrderRequest extends AbstractMollieRequest
         return $lines;
     }
 
-    /**
-     * @param array<array-key, mixed> $data
-     */
+    /** @param array<array-key, mixed> $data */
     public function sendData($data): CreateOrderResponse
     {
         $response = $this->sendRequest(
             self::POST,
             '/orders' . ($this->hasIncludePayments() ? '?embed=payments' : ''),
-            $data
+            $data,
         );
+
+        if (\array_key_exists('id', $response)) {
+            $this->setGatewayReference($response['id']);
+            $this->setTransactionReference($response['id']);
+        }
 
         return $this->response = new CreateOrderResponse($this, $response);
     }

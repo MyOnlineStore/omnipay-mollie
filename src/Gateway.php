@@ -5,6 +5,7 @@ namespace Omnipay\Mollie;
 use Omnipay\Common\AbstractGateway;
 use Omnipay\Common\Message\RequestInterface;
 use Omnipay\Mollie\Message\Request\CancelOrderRequest;
+use Omnipay\Mollie\Message\Request\CaptureRequest;
 use Omnipay\Mollie\Message\Request\CompleteOrderRequest;
 use Omnipay\Mollie\Message\Request\CompletePurchaseRequest;
 use Omnipay\Mollie\Message\Request\CreateCustomerMandateRequest;
@@ -32,7 +33,6 @@ use Omnipay\Mollie\Message\Request\UpdateCustomerRequest;
  *
  * @method RequestInterface authorize(array $options = array())
  * @method RequestInterface completeAuthorize(array $options = array())
- * @method RequestInterface capture(array $options = array())
  * @method RequestInterface createCard(array $options = array())
  * @method RequestInterface updateCard(array $options = array())
  * @method RequestInterface deleteCard(array $options = array())
@@ -213,6 +213,19 @@ class Gateway extends AbstractGateway
     {
         $request = $this->createRequest(FetchOrderRequest::class, $parameters);
         \assert($request instanceof FetchOrderRequest);
+
+        return $request;
+    }
+
+    /**
+     * @param  array $parameters
+     *
+     * @return CaptureRequest
+     */
+    public function capture(array $parameters = [])
+    {
+        $request = $this->createRequest(CaptureRequest::class, $parameters);
+        \assert($request instanceof CaptureRequest);
 
         return $request;
     }
